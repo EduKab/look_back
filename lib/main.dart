@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:look_back/routes.dart';
 import 'package:look_back/screens/login_screen.dart';
+import 'package:look_back/screens/onBoard_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +23,7 @@ class LookBack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const LoginScreen(),
+      home: const OnBoard_Screen(),
       routes: getApplicationRoutes(),
     );
   }
