@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:look_back/settings/theme_config.dart';
@@ -12,38 +13,6 @@ class ForgotForm extends StatefulWidget {
 }
 
 class _ForgotFormState extends State<ForgotForm> {
-  showAlertDialog(BuildContext context, String title, String content) {
-    // set up the button
-    Widget okButton = TextButton(
-      child: const Text("OK"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(title),
-      content: Text(content),
-      actions: [
-        okButton,
-      ],
-    );
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  bool isEmail(String em) {
-    String p =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regExp = RegExp(p);
-    return regExp.hasMatch(em);
-  }
-
   @override
   Widget build(BuildContext context) {
     final email = TextEditingController();
@@ -84,12 +53,50 @@ class _ForgotFormState extends State<ForgotForm> {
             child: ElevatedButton.icon(
               icon: const Icon(Icons.key_outlined),
               onPressed: () async {
-                var em = email.text;
-                await FirebaseAuth.instance
-                    .sendPasswordResetEmail(email: em)
-                    .then((value) {
-                  print('Email enviado ->  $em');
-                });
+                try {
+                  var em = email.text;
+                  await FirebaseAuth.instance
+                      .sendPasswordResetEmail(email: em)
+                      .then((value) {
+                    print('Email enviado ->  $em');
+                    CoolAlert.show(
+                      context: context,
+                      type: CoolAlertType.success,
+                      title: 'Message sent',
+                      text:
+                          'Verify your email $em in SPAM and reset your password',
+                      confirmBtnText: 'Accept',
+                      confirmBtnColor: Colors.green,
+                    ).then((value) {
+                      FirebaseAuth.instance.signOut();
+                      Navigator.pop(context);
+                    });
+                  });
+                } on FirebaseAuthException catch (e) {
+                  print('ERROR CODE-> ${e.code}');
+                  CoolAlert.show(
+                    context: context,
+                    type: CoolAlertType.error,
+                    title: 'Exception',
+                    text: e.code,
+                    confirmBtnText: 'Accept',
+                    confirmBtnColor: Colors.green,
+                  ).then((value) {
+                    Navigator.pop(context);
+                  });
+                } catch (e) {
+                  print('ERROR -> $e');
+                  CoolAlert.show(
+                    context: context,
+                    type: CoolAlertType.error,
+                    title: 'Exception',
+                    text: e.toString(),
+                    confirmBtnText: 'Accept',
+                    confirmBtnColor: Colors.green,
+                  ).then((value) {
+                    Navigator.pop(context);
+                  });
+                }
               },
               label: const Text(
                 "Reset Password",

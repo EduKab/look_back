@@ -105,30 +105,31 @@ class _LoginFormState extends State<LoginForm> {
                 } else {
                   print('$em ---> $ps');
 
-                  // var data = [
-                  //   'Default profile',
-                  //   'https://i.pinimg.com/474x/30/04/21/3004214c3132a490eefad066c6da759b.jpg',
-                  //   em,
-                  //   'Default'
-                  // ];
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) {
-                  //       return DashboardScreen(
-                  //         data: data,
-                  //       );
-                  //     },
-                  //   ),
-                  // );
+                  
                   try {
                     final credential = await FirebaseAuth.instance
                         .signInWithEmailAndPassword(email: em, password: ps)
                         .then((value) {
-                      final user = FirebaseAuth.instance.currentUser;
+                      var user = FirebaseAuth.instance.currentUser;
                       if (user!.emailVerified) {
-                        print('VERI');
+                        print('-> VERIFIED');
+                        var data = [
+                          'Email verified profile',
+                          'https://i.pinimg.com/474x/30/04/21/3004214c3132a490eefad066c6da759b.jpg',
+                          em,
+                          'Default'
+                        ];
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return DashboardScreen(
+                                data: data,
+                              );
+                            },
+                          ),
+                        );
                       } else {
-                        print('SIN VERI');
+                        print('-> UNVERIFIED');
                         CoolAlert.show(
                             context: context,
                             type: CoolAlertType.confirm,
@@ -138,35 +139,54 @@ class _LoginFormState extends State<LoginForm> {
                             cancelBtnText: 'No',
                             confirmBtnColor: Colors.green,
                             onConfirmBtnTap: () async {
-                              print('chi');
-                              User? user = FirebaseAuth.instance.currentUser;
                               print('USER -> $user');
-                              user!.sendEmailVerification().then((value) {
-                                FirebaseAuth.instance.signOut();
+                              user = FirebaseAuth.instance.currentUser;
+                              await user!.sendEmailVerification().then((value) {
                                 print('The verification email has been sent.');
                                 //
                                 CoolAlert.show(
                                   context: context,
                                   type: CoolAlertType.success,
                                   title: 'Message sent',
-                                  text: 'Verify your email account in SPAM',
+                                  text: 'Verify your email $em in SPAM',
                                   confirmBtnText: 'Accept',
                                   confirmBtnColor: Colors.green,
-                                );
+                                ).then((value) {
+                                  FirebaseAuth.instance.signOut();
+                                });
                               });
                             });
                       }
                     });
                     print('CRED -> $credential');
                   } on FirebaseAuthException catch (e) {
+                    String txt = e.code;
                     print('ERROR CODE-> ${e.code}');
                     if (e.code == 'user-not-found') {
-                      print('No user found for that email.');
+                      txt = 'No user found for that email.';
+                      print(txt);
                     } else if (e.code == 'wrong-password') {
-                      print('Wrong password provided for that user.');
+                      txt = 'Wrong password provided for that user.';
+                      print(txt);
                     }
+                    CoolAlert.show(
+                      context: context,
+                      type: CoolAlertType.error,
+                      title: e.code,
+                      text: txt,
+                      confirmBtnText: 'Accept',
+                      confirmBtnColor: Colors.green,
+                    );
                   } catch (e) {
                     print('ERROR -> $e');
+                    CoolAlert.show(
+                      context: context,
+                      type: CoolAlertType.error,
+                      title: 'Exception',
+                      text: e.toString(),
+                      confirmBtnText: 'Accept',
+                      confirmBtnColor: Colors.green,
+                    );
                   }
                 }
               },

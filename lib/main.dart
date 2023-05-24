@@ -54,6 +54,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     ThemeData? getCurrentTheme(ModelTheme themeNotifier) {
       int nTheme = themeNotifier.chooseTheme;
       List<ThemeData> lista = [

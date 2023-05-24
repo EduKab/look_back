@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:look_back/settings/theme_config.dart';
@@ -12,84 +13,52 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  showAlertDialog(BuildContext context, String title, String content) {
-    // set up the button
-    Widget okButton = TextButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(title),
-      content: Text(content),
-      actions: [
-        okButton,
-      ],
-    );
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  bool isEmail(String em) {
-    String p =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regExp = new RegExp(p);
-    return regExp.hasMatch(em);
-  }
-
   @override
   Widget build(BuildContext context) {
-    final fname = TextEditingController();
-    final lname = TextEditingController();
+    // final fname = TextEditingController();
+    // final lname = TextEditingController();
     final email = TextEditingController();
     final pass = TextEditingController();
 
     return Form(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: TextFormField(
-              controller: fname,
-              style: TextStyle(color: Colors.black87),
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-              //cursorColor: kPrimaryColor,
-              onSaved: (email) {},
-              decoration: const InputDecoration(
-                hintText: "Your first name",
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(defaultPadding),
-                  child: Icon(Icons.badge_rounded),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: TextFormField(
-              controller: lname,
-              style: TextStyle(color: Colors.black87),
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-              //cursorColor: kPrimaryColor,
-              onSaved: (email) {},
-              decoration: const InputDecoration(
-                hintText: "Your last name",
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.all(defaultPadding),
-                  child: Icon(Icons.assignment_ind_rounded),
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(vertical: 5),
+          //   child: TextFormField(
+          //     controller: fname,
+          //     style: TextStyle(color: Colors.black87),
+          //     keyboardType: TextInputType.emailAddress,
+          //     textInputAction: TextInputAction.next,
+          //     //cursorColor: kPrimaryColor,
+          //     onSaved: (email) {},
+          //     decoration: const InputDecoration(
+          //       hintText: "Your first name",
+          //       prefixIcon: Padding(
+          //         padding: const EdgeInsets.all(defaultPadding),
+          //         child: Icon(Icons.badge_rounded),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(vertical: 5),
+          //   child: TextFormField(
+          //     controller: lname,
+          //     style: TextStyle(color: Colors.black87),
+          //     keyboardType: TextInputType.emailAddress,
+          //     textInputAction: TextInputAction.next,
+          //     //cursorColor: kPrimaryColor,
+          //     onSaved: (email) {},
+          //     decoration: const InputDecoration(
+          //       hintText: "Your last name",
+          //       prefixIcon: Padding(
+          //         padding: const EdgeInsets.all(defaultPadding),
+          //         child: Icon(Icons.assignment_ind_rounded),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
@@ -133,33 +102,71 @@ class _SignUpFormState extends State<SignUpForm> {
               // var ln = lname.text;
               var em = email.text;
               var ps = pass.text;
-
-              try {
-                User? user;
-                FirebaseAuth.instance
-                    .createUserWithEmailAndPassword(
-                  email: em,
-                  password: ps,
-                )
-                    .then((value) async {
-                  print('The email has been created');
-                  user = FirebaseAuth.instance.currentUser;
-                  print('USER -> $user');
-                  await user!.sendEmailVerification().then((value) {
-                    FirebaseAuth.instance.signOut();
-                    print('The verification email has been sent.');
-                    //
+              if (em.isEmpty) {
+                print('EMAIL NULL');
+              } else if (ps.isEmpty) {
+                print('PASS NULL');
+              } else {
+                try {
+                  User? user;
+                  final credential = await FirebaseAuth.instance
+                      .createUserWithEmailAndPassword(
+                    email: em,
+                    password: ps,
+                  )
+                      .then((value) async {
+                    print('The email has been created');
+                    user = FirebaseAuth.instance.currentUser;
+                    print('USER -> $user');
+                    await user!.sendEmailVerification().then((value) {
+                      FirebaseAuth.instance.signOut();
+                      print('The verification email has been sent');
+                      CoolAlert.show(
+                        context: context,
+                        type: CoolAlertType.success,
+                        title: 'Account created',
+                        text: 'The verification email has been sent',
+                        confirmBtnText: 'Accept',
+                        confirmBtnColor: Colors.green,
+                      ).then((value) {
+                        FirebaseAuth.instance.signOut();
+                        Navigator.pop(context);
+                      });
+                      //
+                    });
                   });
-                });
-              } on FirebaseAuthException catch (e) {
-                print('ERROR CODE-> ${e.code}');
-                if (e.code == 'weak-password') {
-                  print('The password provided is too weak.');
-                } else if (e.code == 'email-already-in-use') {
-                  print('The account already exists for that email.');
+                  print('CRED -> $credential');
+                } on FirebaseAuthException catch (e) {
+                  String txt = e.code;
+                  print('ERROR CODE-> ${e.code}');
+                  if (e.code == 'weak-password') {
+                    txt = 'The password provided is too weak.';
+                    print(txt);
+                  } else if (e.code == 'email-already-in-use') {
+                    txt = 'The account already exists for that email.';
+                    print(txt);
+                  }
+                  CoolAlert.show(
+                    context: context,
+                    type: CoolAlertType.error,
+                    title: e.code,
+                    text: txt,
+                    confirmBtnText: 'Accept',
+                    confirmBtnColor: Colors.green,
+                  );
+                } catch (e) {
+                  print('ERROR -> $e');
+                  CoolAlert.show(
+                    context: context,
+                    type: CoolAlertType.error,
+                    title: 'Exception',
+                    text: e.toString(),
+                    confirmBtnText: 'Accept',
+                    confirmBtnColor: Colors.green,
+                  ).then((value) {
+                    Navigator.pop(context);
+                  });
                 }
-              } catch (e) {
-                print('ERROR -> $e');
               }
             },
             label: Text("Sign Up".toUpperCase()),
