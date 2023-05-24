@@ -1,5 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:look_back/screens/login/components/footer_account_acheck.dart';
 import 'package:look_back/settings/theme_config.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -54,7 +54,6 @@ class _SignUpFormState extends State<SignUpForm> {
     return Form(
       child: Column(
         children: [
-          
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
@@ -73,7 +72,6 @@ class _SignUpFormState extends State<SignUpForm> {
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
@@ -92,7 +90,6 @@ class _SignUpFormState extends State<SignUpForm> {
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
@@ -111,7 +108,6 @@ class _SignUpFormState extends State<SignUpForm> {
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
@@ -129,35 +125,45 @@ class _SignUpFormState extends State<SignUpForm> {
               ),
             ),
           ),
-
           const SizedBox(height: defaultPadding),
           ElevatedButton.icon(
             icon: Icon(Icons.assignment_ind_rounded),
-            onPressed: () {
-              var fn = fname.text;
-              var ln = lname.text;
+            onPressed: () async {
+              // var fn = fname.text;
+              // var ln = lname.text;
               var em = email.text;
               var ps = pass.text;
 
-              if (fn == "") {
-                showAlertDialog(context, 'Empty field', 'Complete First Name field');
-              } else if (ln == "") {
-                showAlertDialog(context, 'Empty field', 'Complete Last Name field');
-              } else if (em == "") {
-                showAlertDialog(context, 'Empty field', 'Complete Email field');
-              }else if (ps == "") {
-                showAlertDialog(context, 'Empty field', 'Complete Password field');
-              } else {
-                if (isEmail(em)) {
-                  showAlertDialog(context, 'SUCCESS', 'Register completed');
-                } else {
-                  showAlertDialog(context, 'Incorrect email', 'Incorrect Email format');
+              try {
+                User? user;
+                FirebaseAuth.instance
+                    .createUserWithEmailAndPassword(
+                  email: em,
+                  password: ps,
+                )
+                    .then((value) async {
+                  print('The email has been created');
+                  user = FirebaseAuth.instance.currentUser;
+                  print('USER -> $user');
+                  await user!.sendEmailVerification().then((value) {
+                    FirebaseAuth.instance.signOut();
+                    print('The verification email has been sent.');
+                    //
+                  });
+                });
+              } on FirebaseAuthException catch (e) {
+                print('ERROR CODE-> ${e.code}');
+                if (e.code == 'weak-password') {
+                  print('The password provided is too weak.');
+                } else if (e.code == 'email-already-in-use') {
+                  print('The account already exists for that email.');
                 }
+              } catch (e) {
+                print('ERROR -> $e');
               }
             },
             label: Text("Sign Up".toUpperCase()),
           ),
-
           const SizedBox(height: defaultPadding),
           AlreadyHaveAnAccountCheck(
             login: false,
@@ -168,6 +174,39 @@ class _SignUpFormState extends State<SignUpForm> {
           const SizedBox(height: defaultPadding),
         ],
       ),
+    );
+  }
+}
+
+class AlreadyHaveAnAccountCheck extends StatelessWidget {
+  final bool login;
+  final Function? press;
+  const AlreadyHaveAnAccountCheck({
+    Key? key,
+    this.login = true,
+    required this.press,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          login ? "Don't have an Account ? " : "Already have an Account ? ",
+          //style: const TextStyle(color: kPrimaryColor),
+        ),
+        GestureDetector(
+          onTap: press as void Function()?,
+          child: Text(
+            login ? "Sign Up" : "Sign In",
+            style: const TextStyle(
+              //color: kPrimaryColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        )
+      ],
     );
   }
 }

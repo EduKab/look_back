@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:look_back/screens/dashboard/dashboard_screen.dart';
-import 'package:look_back/screens/login/components/footer_account_acheck.dart';
 import 'package:look_back/settings/theme_config.dart';
 
 class LoginForm extends StatefulWidget {
@@ -17,38 +17,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  showAlertDialog(BuildContext context, String title, String content) {
-    // set up the button
-    Widget okButton = TextButton(
-      child: const Text("OK"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(title),
-      content: Text(content),
-      actions: [
-        okButton,
-      ],
-    );
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  bool isEmail(String em) {
-    String p =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regExp = RegExp(p);
-    return regExp.hasMatch(em);
-  }
-
+  final formGlobalKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final email = TextEditingController();
@@ -61,6 +30,7 @@ class _LoginFormState extends State<LoginForm> {
         redirectUrl: 'https://look-back-90825.firebaseapp.com/__/auth/handler');
 
     return Form(
+      key: formGlobalKey,
       child: Column(
         children: [
           const SizedBox(height: defaultPadding / 2),
@@ -107,40 +77,96 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/forgot');
+            },
+            child: const Text(
+              'Forgot password?',
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                //color: kPrimaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
           const SizedBox(height: defaultPadding),
           Hero(
             tag: "login_btn",
             child: ElevatedButton.icon(
               icon: const Icon(Icons.login),
-              onPressed: () {
+              onPressed: () async {
                 var em = email.text;
                 var ps = pass.text;
-                if (em == "") {
-                  showAlertDialog(
-                      context, 'Empty field', 'Complete Email field');
-                } else if (ps == "") {
-                  showAlertDialog(
-                      context, 'Empty field', 'Complete Password field');
+                if (em.isEmpty) {
+                  print('EMAIL NULL');
+                } else if (ps.isEmpty) {
+                  print('PASS NULL');
                 } else {
-                  if (isEmail(em)) {
-                    var data = [
-                      'Default profile',
-                      'https://i.pinimg.com/474x/30/04/21/3004214c3132a490eefad066c6da759b.jpg',
-                      em,
-                      'Default'
-                    ];
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return DashboardScreen(
-                            data: data,
-                          );
-                        },
-                      ),
-                    );
-                  } else {
-                    showAlertDialog(
-                        context, 'Incorrect email', 'Incorrect Email format');
+                  print('$em ---> $ps');
+
+                  // var data = [
+                  //   'Default profile',
+                  //   'https://i.pinimg.com/474x/30/04/21/3004214c3132a490eefad066c6da759b.jpg',
+                  //   em,
+                  //   'Default'
+                  // ];
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) {
+                  //       return DashboardScreen(
+                  //         data: data,
+                  //       );
+                  //     },
+                  //   ),
+                  // );
+                  try {
+                    final credential = await FirebaseAuth.instance
+                        .signInWithEmailAndPassword(email: em, password: ps)
+                        .then((value) {
+                      final user = FirebaseAuth.instance.currentUser;
+                      if (user!.emailVerified) {
+                        print('VERI');
+                      } else {
+                        print('SIN VERI');
+                        CoolAlert.show(
+                            context: context,
+                            type: CoolAlertType.confirm,
+                            title: 'Unverified email',
+                            text: 'Do you want to resend verification?',
+                            confirmBtnText: 'Yes',
+                            cancelBtnText: 'No',
+                            confirmBtnColor: Colors.green,
+                            onConfirmBtnTap: () async {
+                              print('chi');
+                              User? user = FirebaseAuth.instance.currentUser;
+                              print('USER -> $user');
+                              user!.sendEmailVerification().then((value) {
+                                FirebaseAuth.instance.signOut();
+                                print('The verification email has been sent.');
+                                //
+                                CoolAlert.show(
+                                  context: context,
+                                  type: CoolAlertType.success,
+                                  title: 'Message sent',
+                                  text: 'Verify your email account in SPAM',
+                                  confirmBtnText: 'Accept',
+                                  confirmBtnColor: Colors.green,
+                                );
+                              });
+                            });
+                      }
+                    });
+                    print('CRED -> $credential');
+                  } on FirebaseAuthException catch (e) {
+                    print('ERROR CODE-> ${e.code}');
+                    if (e.code == 'user-not-found') {
+                      print('No user found for that email.');
+                    } else if (e.code == 'wrong-password') {
+                      print('Wrong password provided for that user.');
+                    }
+                  } catch (e) {
+                    print('ERROR -> $e');
                   }
                 }
               },
@@ -243,6 +269,39 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(height: defaultPadding / 2),
         ],
       ),
+    );
+  }
+}
+
+class AlreadyHaveAnAccountCheck extends StatelessWidget {
+  final bool login;
+  final Function? press;
+  const AlreadyHaveAnAccountCheck({
+    Key? key,
+    this.login = true,
+    required this.press,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          login ? "Don't have an Account ? " : "Already have an Account ? ",
+          //style: const TextStyle(color: kPrimaryColor),
+        ),
+        GestureDetector(
+          onTap: press as void Function()?,
+          child: Text(
+            login ? "Sign Up" : "Sign In",
+            style: const TextStyle(
+              //color: kPrimaryColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        )
+      ],
     );
   }
 }
