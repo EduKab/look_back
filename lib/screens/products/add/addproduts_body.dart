@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:look_back/settings/theme_config.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 
 File? _image;
@@ -167,12 +168,22 @@ class _AddProductsFormState extends State<AddProductsForm> {
                   final String url = await snapshot.ref.getDownloadURL();
                   print(url);
                   print('SE SUBIOOOO');
-                  final storageRef = FirebaseStorage.instance.ref().child("products");
+                  final storageRef =
+                      FirebaseStorage.instance.ref().child("products");
                   final listResult = await storageRef.listAll();
                   for (var item in listResult.items) {
                     // The items under storageRef.
                     print('=> ${await item.getDownloadURL()}');
                   }
+                  final products =
+                      FirebaseFirestore.instance.collection('products').doc('id');
+                  final json = {
+                    'name': 'yug',
+                    'desc': 'olikj',
+                    'price': 500,
+                    'url': 'kjn'
+                  };
+                  await products.set(json).then((value) => print('AgregadOO'));
                 } else {
                   print('algo fallo');
                 }
