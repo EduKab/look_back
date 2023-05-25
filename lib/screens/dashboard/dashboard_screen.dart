@@ -33,6 +33,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.data[3]);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: PageView(
@@ -44,6 +46,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
+<<<<<<< Updated upstream
               title: Text('NEWS'),
               automaticallyImplyLeading: false,
               backgroundColor: Colors.black,
@@ -190,6 +193,210 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     )
                   ],
                 ),
+=======
+              title: Text('LookBack'), 
+              automaticallyImplyLeading: false
+            ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('NEWS')
+              ],
+            ),
+          ),
+          Container(color: Colors.black),
+          Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              backgroundColor: Colors.black,
+              actions: [
+                (isEdit)
+                ? Container()
+                : IconButton(
+                    onPressed: (){
+                      setState(() {
+                        isEdit =! isEdit;
+                        print(isEdit);
+                      });
+                    }, 
+                    icon: Icon(Icons.edit)
+                )
+              ],
+            ),
+            body: Padding(
+              padding: EdgeInsets.all(50),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 200,
+                    width: 200,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.black,
+                      child: (isEdit)
+                      ? Container(
+                          height: 50,
+                          width: 50,
+                          margin: EdgeInsets.only(top: 150, left: 110),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30), 
+                            color: Colors.red
+                          ),
+                          child: IconButton(
+                            onPressed: (){
+                              
+                            }, 
+                            icon: Icon(Icons.edit, color: Colors.white)
+                          ),
+                        )
+                      : Container()
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                  TextField(
+                    controller: TextEditingController(text: widget.data[2]),
+                    focusNode: FocusNode(),
+                    enabled: (isEdit)
+                    ? true
+                    : false,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                    style: (isEdit)
+                    ? TextStyle(color: Colors.black)
+                    : TextStyle(color: Colors.blueGrey)
+                  ),
+                  SizedBox(height: 10),
+                  TextField(
+                    enabled: (isEdit)
+                    ? true
+                    : false,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                    )
+                  ),
+                  SizedBox(height: 10),
+                  TextField(
+                    enabled: (isEdit)
+                    ? true
+                    : false,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                    )
+                  ),
+                  SizedBox(height: 40),
+                  (isEdit)
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(Colors.green),
+                          ),
+                          onPressed: (){}, 
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'SAVE',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Icon(Icons.save, color: Colors.white)
+                              ],
+                            ),
+                          )
+                        ),
+                        TextButton(
+                          style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(Colors.red),
+                          ),
+                          onPressed: (){
+                            isEdit =! isEdit;
+                            setState(() {});
+                          }, 
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'CANCEL',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Icon(Icons.close_sharp, color: Colors.white)
+                              ],
+                            ),
+                          )
+                        ),
+                      ],
+                    )
+                  : Container()
+                ],
+              ),
+            ),
+          ),
+          Container(color: Colors.green),
+        ],
+      ),
+      bottomNavigationBar: BottomNavyBar(
+        selectedIndex: _currentIndex,
+        showElevation: true,
+        itemCornerRadius: 24,
+        curve: Curves.easeIn,
+        onItemSelected: (index) => {
+          setState(() => _currentIndex = index),
+          _pageController.animateToPage(index,
+                  duration: Duration(milliseconds: 300), curve: Curves.ease)
+        },
+        items: <BottomNavyBarItem>[
+          BottomNavyBarItem(
+            title: Text('Home'),
+            icon: Icon(Icons.home),
+            inactiveColor: Colors.black,
+            activeColor: Color.fromARGB(255, 255, 53, 120)
+          ),
+          BottomNavyBarItem(
+            title: Text('Shop'),
+            icon: Icon(Icons.view_module),
+            inactiveColor: Colors.black,
+            activeColor: Color.fromARGB(255, 255, 53, 120)
+          ),
+          BottomNavyBarItem(
+            title: Text('Profile'),
+            icon: Icon(Icons.person),
+            inactiveColor: Colors.black,
+            activeColor: Color.fromARGB(255, 255, 53, 120)
+          ),
+          BottomNavyBarItem(
+            title: Text('Settings'),
+            icon: Icon(Icons.settings),
+            inactiveColor: Colors.black,
+            activeColor: Color.fromARGB(255, 255, 53, 120)
+          ),
+        ],
+      ),
+    );
+    
+    /*return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            UserAccountsDrawerHeader(
+              accountName: Text(widget.data[0]!),
+              accountEmail: Text(widget.data[2]!),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: NetworkImage(widget.data[1]!),
+                radius: 40,
+                backgroundColor: Colors.transparent,
+>>>>>>> Stashed changes
               ),
             ),
           ),
@@ -463,7 +670,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
-    );
+    );*/
   }
 }
 

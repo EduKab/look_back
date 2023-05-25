@@ -58,8 +58,11 @@ dependencies:
   sqflite: ^2.2.5
 
   bottom_navy_bar: ^6.0.0
+<<<<<<< Updated upstream
   flutter_image_slideshow: ^0.1.5
 
+=======
+>>>>>>> Stashed changes
 
 dev_dependencies:
   flutter_test:
