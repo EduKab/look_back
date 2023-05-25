@@ -78,7 +78,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       appBar: AppBar(
         title: const Text(
-          'Dashboard',
+          'Welcome to look back',
         ),
       ),
       body: const Background(
@@ -106,17 +106,17 @@ class MobileDashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      // mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         const DashboardTop(),
         Row(
           children: [
-            const Spacer(),
+            // const Spacer(),
             Expanded(
-              flex: 8,
+              flex: 10,
               child: DashboardBody(data: session),
             ),
-            const Spacer(),
+            // const Spacer(),
           ],
         ),
       ],

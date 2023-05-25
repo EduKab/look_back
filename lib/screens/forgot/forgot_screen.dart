@@ -25,12 +25,11 @@ class MobileForgotScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const ForgotScreenTopImage(),
         Row(
-          children: const [
+          children: [
             Spacer(),
             Expanded(
               flex: 8,
@@ -49,11 +48,8 @@ class DesktopForgotScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       children: [
-        Expanded(
-          child: ForgotScreenTopImage(),
-        ),
         Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -65,36 +61,6 @@ class DesktopForgotScreen extends StatelessWidget {
             ],
           ),
         ),
-      ],
-    );
-  }
-}
-
-class ForgotScreenTopImage extends StatelessWidget {
-  const ForgotScreenTopImage({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        SizedBox(height: 16 * 2),
-        Row(
-          children: [
-            Spacer(),
-            Expanded(
-              flex: 8,
-              // child: LottieBuilder.asset(
-              //   "assets/animation/music_5.json",
-              //   //height: 275,
-              // ),
-              child: Image(image: AssetImage('assets/images/Logo_Look_Back.png')),
-            ),
-            Spacer(),
-          ],
-        ),
-        SizedBox(height: 16 * 2),
       ],
     );
   }

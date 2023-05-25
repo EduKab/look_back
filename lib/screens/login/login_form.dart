@@ -20,14 +20,13 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-
   final formGlobalKey = GlobalKey<FormState>();
 
   Color getBorder(ModelTheme themeNotifier) {
     int n = themeNotifier.chooseTheme;
-    if(n==0 || n==2 || n==4){
+    if (n == 0 || n == 2 || n == 4) {
       return Colors.white;
-    }else{
+    } else {
       return Colors.black;
     }
   }
@@ -43,7 +42,8 @@ class _LoginFormState extends State<LoginForm> {
       final GitHubSignIn githubSignIn = GitHubSignIn(
           clientId: '5563c664832c000335e9',
           clientSecret: '4a3ce46f64287df8378a3bcb6e1ddab48068452a',
-          redirectUrl: 'https://look-back-90825.firebaseapp.com/__/auth/handler');
+          redirectUrl:
+              'https://look-back-90825.firebaseapp.com/__/auth/handler');
 
       const textStyle = TextStyle(
         letterSpacing: 4,
@@ -140,10 +140,15 @@ class _LoginFormState extends State<LoginForm> {
                 onPressed: () async {
                   var em = email.text;
                   var ps = pass.text;
-                  if (em.isEmpty) {
-                    print('EMAIL NULL');
-                  } else if (ps.isEmpty) {
-                    print('PASS NULL');
+                  if (em.isEmpty || ps.isEmpty) {
+                    print('NULL');
+                    CoolAlert.show(
+                      context: context,
+                      type: CoolAlertType.warning,
+                      title: 'Empty fields',
+                      text: 'Complete all login form',
+                      confirmBtnText: 'Accept',
+                    );
                   } else {
                     print('$em ---> $ps');
 
@@ -182,8 +187,11 @@ class _LoginFormState extends State<LoginForm> {
                               onConfirmBtnTap: () async {
                                 print('USER -> $user');
                                 user = FirebaseAuth.instance.currentUser;
-                                await user!.sendEmailVerification().then((value) {
-                                  print('The verification email has been sent.');
+                                await user!
+                                    .sendEmailVerification()
+                                    .then((value) {
+                                  print(
+                                      'The verification email has been sent.');
                                   //
                                   CoolAlert.show(
                                     context: context,
@@ -331,6 +339,6 @@ class _LoginFormState extends State<LoginForm> {
           ],
         ),
       );
-  });
+    });
   }
 }
