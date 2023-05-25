@@ -25,6 +25,7 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
             style: const TextStyle(
               //color: kPrimaryColor,
               fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
             ),
           ),
         )

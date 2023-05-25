@@ -15,11 +15,14 @@ class _AddProductsScreenState extends State<AddProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Background(
-      child: SingleChildScrollView(
-        child: Responsive(
-            mobile: MobileAddProductsScreen(),
-            desktop: DesktopSingupScreen()),
+    return Scaffold(
+      appBar: AppBar(title: const Text('Insert new product'),),
+      body: const Background(
+        child: SingleChildScrollView(
+          child: Responsive(
+              mobile: MobileAddProductsScreen(),
+              desktop: DesktopSingupScreen()),
+        ),
       ),
     );
   }

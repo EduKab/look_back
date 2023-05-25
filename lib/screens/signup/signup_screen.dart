@@ -14,11 +14,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Background(
+    return const Background(
       child: SingleChildScrollView(
         child: Responsive(
-            mobile: const MobileSignupScreen(),
-            desktop: const DesktopSingupScreen()),
+            mobile: MobileSignupScreen(),
+            desktop: DesktopSingupScreen()),
       ),
     );
   }
@@ -31,12 +31,12 @@ class MobileSignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const SignUpScreenTopImage(),
+        SignUpScreenTopImage(),
         Row(
-          children: const [
+          children: [
             Spacer(),
             Expanded(
               flex: 8,
@@ -56,15 +56,15 @@ class DesktopSingupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       children: [
-        const Expanded(
+        Expanded(
           child: SignUpScreenTopImage(),
         ),
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               SizedBox(
                 width: 450,
                 child: SignUpForm(),

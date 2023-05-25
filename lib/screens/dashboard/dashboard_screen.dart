@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:look_back/screens/profile/profile_screen.dart';
 import 'package:look_back/settings/responsive.dart';
 import 'package:look_back/components/background.dart';
 
@@ -37,6 +38,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 radius: 40,
                 backgroundColor: Colors.transparent,
               ),
+            ),
+            ListTile(
+              title: const Text('Themes'),
+              subtitle: const Text('Select theme'),
+              leading: const Icon(Icons.brightness_6_rounded),
+              onTap: () {
+                Navigator.pushNamed(context, '/theme');
+              },
+            ),
+            ListTile(
+              title: const Text('Profile'),
+              subtitle: const Text('View data profile'),
+              leading: const Icon(Icons.supervised_user_circle_sharp),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ProfileScreen(
+                        data: widget.data,
+                      );
+                    },
+                  ),
+                );
+              },
             ),
             ListTile(
               title: const Text('Sign Out'),
@@ -121,37 +146,6 @@ class DesktopDashboardScreen extends StatelessWidget {
             ],
           ),
         ),
-      ],
-    );
-  }
-}
-
-class DashboardTop extends StatelessWidget {
-  const DashboardTop({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        Text(
-          "Welcome to S O C I A L T E C",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 16),
-        // Row(
-        //   children: [
-        //     Expanded(
-        //       flex: 8,
-        //       child: LottieBuilder.asset(
-        //         "assets/animation/cute_2.json",
-        //         height: 350,
-        //       ),
-        //     ),
-        //   ],
-        // ),
-        // SizedBox(height: 16 * 2),
       ],
     );
   }

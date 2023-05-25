@@ -128,6 +128,7 @@ class _LoginFormState extends State<LoginForm> {
                 style: TextStyle(
                   //color: kPrimaryColor,
                   fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
                 ),
               ),
             ),

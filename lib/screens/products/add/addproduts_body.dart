@@ -1,4 +1,6 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:look_back/models/product_model.dart';
 import 'package:look_back/settings/theme_config.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -7,6 +9,7 @@ import 'dart:io';
 
 File? _image;
 final FirebaseStorage storage = FirebaseStorage.instance;
+final docProduct = FirebaseFirestore.instance.collection('products').doc();
 
 class AddProductsScreenTopImage extends StatefulWidget {
   const AddProductsScreenTopImage({
@@ -119,7 +122,10 @@ class AddProductsForm extends StatefulWidget {
 }
 
 class _AddProductsFormState extends State<AddProductsForm> {
-  final title = TextEditingController();
+  final desc = TextEditingController();
+  final name = TextEditingController();
+  final price = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -130,16 +136,51 @@ class _AddProductsFormState extends State<AddProductsForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: TextFormField(
-              controller: title,
+              controller: name,
               style: const TextStyle(color: Colors.black87),
               textInputAction: TextInputAction.next,
               //cursorColor: kPrimaryColor,
-              onSaved: (title) {},
+              onSaved: (name) {},
               decoration: const InputDecoration(
-                hintText: "Your title",
+                hintText: "Name",
                 prefixIcon: Padding(
                   padding: EdgeInsets.all(defaultPadding),
-                  child: Icon(Icons.account_circle_rounded),
+                  child: Icon(Icons.production_quantity_limits_rounded),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: TextFormField(
+              controller: desc,
+              style: const TextStyle(color: Colors.black87),
+              textInputAction: TextInputAction.next,
+              //cursorColor: kPrimaryColor,
+              onSaved: (name) {},
+              decoration: const InputDecoration(
+                hintText: "Description",
+                prefixIcon: Padding(
+                  padding: EdgeInsets.all(defaultPadding),
+                  child: Icon(Icons.description_rounded),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: TextFormField(
+              controller: price,
+              style: const TextStyle(color: Colors.black87),
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.number,
+              //cursorColor: kPrimaryColor,
+              onSaved: (name) {},
+              decoration: const InputDecoration(
+                hintText: "Price",
+                prefixIcon: Padding(
+                  padding: EdgeInsets.all(defaultPadding),
+                  child: Icon(Icons.monetization_on_rounded),
                 ),
               ),
             ),
@@ -148,14 +189,23 @@ class _AddProductsFormState extends State<AddProductsForm> {
           ElevatedButton.icon(
             icon: const Icon(Icons.assignment_ind_rounded),
             onPressed: () async {
-              if (_image != null && title.text.isNotEmpty) {
-                print(title.text);
-                print(_image!.path);
+              // final storageRef =
+              //     FirebaseStorage.instance.ref().child("products");
+              // final listResult = await storageRef.listAll();
+              // for (var item in listResult.items) {
+              //   // The items under storageRef.
+              //   print('=> ${await item.getDownloadURL()}');
+              // }
+              if (_image != null &&
+                  name.text.isNotEmpty &&
+                  desc.text.isNotEmpty &&
+                  price.text.isNotEmpty) {
+                // print(name.text);
+                // print(_image!.path);
                 //final String name = _image!.path.split('/').last;
                 final String ext = _image!.path.split('.').last;
                 //print('NAME -> $name');
-                print('EXT -> $ext');
-                String path = '${title.text}.$ext';
+                String path = '${name.text.replaceAll(' ','').toLowerCase()}_${docProduct.id}.$ext';
                 print('PATH -> $path');
                 final Reference reference =
                     storage.ref().child('products').child(path);
@@ -165,30 +215,51 @@ class _AddProductsFormState extends State<AddProductsForm> {
                     await uploadTask.whenComplete(() => true);
                 print(snapshot);
                 if (snapshot.state == TaskState.success) {
-                  final String url = await snapshot.ref.getDownloadURL();
-                  print(url);
+                  final String urlImg = await snapshot.ref.getDownloadURL();
+                  print(urlImg);
                   print('SE SUBIOOOO');
-                  final storageRef =
-                      FirebaseStorage.instance.ref().child("products");
-                  final listResult = await storageRef.listAll();
-                  for (var item in listResult.items) {
-                    // The items under storageRef.
-                    print('=> ${await item.getDownloadURL()}');
-                  }
-                  final products =
-                      FirebaseFirestore.instance.collection('products').doc('id');
-                  final json = {
-                    'name': 'yug',
-                    'desc': 'olikj',
-                    'price': 500,
-                    'url': 'kjn'
-                  };
-                  await products.set(json).then((value) => print('AgregadOO'));
+                  final prod = Product(
+                      desc: desc.text,
+                      id: docProduct.id,
+                      name: name.text,
+                      price: double.parse(price.text),
+                      url: urlImg);
+                  final json = prod.toJson();
+                  await docProduct.set(json).then((value) {
+                    print('AgregadOO');
+                    print(json.values);
+                    CoolAlert.show(
+                      context: context,
+                      type: CoolAlertType.success,
+                      title: 'Added product',
+                      text: 'The product ${name.text} was added',
+                      confirmBtnText: 'Accept',
+                      confirmBtnColor: Colors.green,
+                    ).then((value) {
+                      Navigator.pop(context);
+                    });
+                  });
                 } else {
                   print('algo fallo');
+                  CoolAlert.show(
+                    context: context,
+                    type: CoolAlertType.error,
+                    title: 'Error',
+                    text: 'snapshot.state',
+                    confirmBtnText: 'Accept',
+                    //confirmBtnColor: Colors.green,
+                  );
                 }
               } else {
                 print('FALTA DATAAAAA');
+                CoolAlert.show(
+                  context: context,
+                  type: CoolAlertType.warning,
+                  title: 'Empty fields',
+                  text: 'Complete all the form',
+                  confirmBtnText: 'Accept',
+                  //confirmBtnColor: Colors.green,
+                );
               }
             },
             label: Text("Add Product".toUpperCase()),

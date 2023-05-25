@@ -67,16 +67,14 @@ class _ThemeTopState extends State<ThemeTop> {
         children: [
           const SizedBox(height: defaultPadding),
           const Text(
-            "Welcome to look_back",
+            "Select your favorite theme",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: defaultPadding / 2),
+          const SizedBox(height: defaultPadding),
           Column(
             children: [
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              const SizedBox(height: defaultPadding * 2),
+              const Text('Current theme:'),
+              const SizedBox(height: defaultPadding),
               Stack(
                 alignment: Alignment.center,
                 children: [
