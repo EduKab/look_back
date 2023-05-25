@@ -1,5 +1,6 @@
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:look_back/models/product_model.dart';
 
 class DashboardTop extends StatelessWidget {
   const DashboardTop({
@@ -35,51 +36,44 @@ class _DashboardBodyState extends State<DashboardBody> {
     super.initState();
   }
 
+  Stream<List<Product>> readProducts() => FirebaseFirestore.instance
+      .collection('products')
+      .snapshots()
+      .map((event) =>
+          event.docs.map((e) => Product.fromJson(e.data())).toList());
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        //Text('data'),
-        FutureBuilder(
-          future: FirebaseStorage.instance.ref().child("products").listAll(),
-          builder: (context, AsyncSnapshot<ListResult> snapshot) {
-            if (snapshot.hasData) {
-              int i = snapshot.data!.items.length;
+        StreamBuilder(
+          stream: readProducts(),
+          builder: (context, snapshot) {
+            if(snapshot.hasData){
               return GridView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(7),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: .9,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10),
-                  itemCount: i,
-                  itemBuilder: (context, index) {
-                    snapshot.data!.items[index].getMetadata().then((value) {
-                      print('VALUE -> ${value.name}');
-                    });
-                    return FutureBuilder(
-                      future: snapshot.data!.items[index].getDownloadURL(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot2) {
-                        if (snapshot2.hasData) {
-                          //return Text(snapshot2.data!);
-                          return Image.network(snapshot2.data!);
-                        } else {
-                          return const CircularProgressIndicator();
-                        }
-                      },
-                    );
-                  });
-            } else if (snapshot.hasError) {
-              return const Center(
-                child: Text('Ocurrio un error :('),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                padding: const EdgeInsets.all(7),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: .8,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Text(snapshot.data![index].name),
+                      Image.network(snapshot.data![index].url),
+                      Text('\$${snapshot.data![index].price}'),
+                    ],
+                  );
+                }
               );
-            } else {
+            }else{
               return const CircularProgressIndicator();
             }
-          },
+          }
         ),
       ],
     );
