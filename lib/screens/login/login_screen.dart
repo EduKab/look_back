@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:look_back/settings/responsive.dart';
 import 'package:look_back/components/background.dart';
-
-import 'components/login_form.dart';
-import 'components/login_top.dart';
+import 'login_form.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -67,6 +65,36 @@ class DesktopLoginScreen extends StatelessWidget {
             ],
           ),
         ),
+      ],
+    );
+  }
+}
+
+class LoginScreenTopImage extends StatelessWidget {
+  const LoginScreenTopImage({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        SizedBox(height: 16 * 2),
+        Row(
+          children: [
+            Spacer(),
+            Expanded(
+              flex: 8,
+              // child: LottieBuilder.asset(
+              //   "assets/animation/music_5.json",
+              //   //height: 275,
+              // ),
+              child: Image(image: AssetImage('assets/images/Logo_Look_Back.png')),
+            ),
+            Spacer(),
+          ],
+        ),
+        SizedBox(height: 16 * 2),
       ],
     );
   }

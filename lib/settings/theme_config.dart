@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 const double defaultPadding = 16.0;
 
-const lightPrimaryColor = Color.fromARGB(255, 230, 117, 13);
-const lightBackgroundColor = Color.fromARGB(255, 243, 216, 175);
+const lightPrimaryColor = Color.fromARGB(255, 255, 0, 255);
+const lightBackgroundColor = Color.fromARGB(255, 234, 206, 234);
 
 const darkPrimaryColor = Color.fromARGB(255, 69, 123, 157);
 const darkBackgroundColor = Color.fromARGB(255, 230, 245, 255);
@@ -73,9 +73,8 @@ const purpleBackgroundColor = Color.fromARGB(255, 231, 198, 255);
 );*/
 
 ThemeData lightTheme = ThemeData.light().copyWith(
-  textSelectionTheme: const TextSelectionThemeData(
-    cursorColor: lightPrimaryColor
-  ),
+  textSelectionTheme:
+      const TextSelectionThemeData(cursorColor: lightPrimaryColor),
   primaryColor: lightPrimaryColor,
   hintColor: lightPrimaryColor,
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -93,24 +92,40 @@ ThemeData lightTheme = ThemeData.light().copyWith(
     iconColor: lightPrimaryColor,
     prefixIconColor: lightPrimaryColor,
     contentPadding: EdgeInsets.symmetric(
-      horizontal: defaultPadding, vertical: defaultPadding),
+        horizontal: defaultPadding, vertical: defaultPadding),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(30)),
       borderSide: BorderSide(width: 5, color: lightPrimaryColor),
     ),
   ),
-  primaryTextTheme: const TextTheme(
-    displayLarge: TextStyle(fontSize: 36.0, fontWeight: FontWeight.bold, color: Colors.white70),
-    titleLarge: TextStyle(fontSize: 18.0, fontStyle: FontStyle.italic, color: Colors.white70),
-    bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Hind', color: Colors.white70),
-    bodySmall: TextStyle(color: Colors.white70),
+  textTheme: const TextTheme(
+    bodyText1: TextStyle(
+      fontFamily: 'SivarPro', 
+      color: Colors.black, 
+      letterSpacing: 1, 
+      shadows: [Shadow(
+        blurRadius: 20.0, // shadow blur
+        color: Colors.white, // shadow color
+        offset: Offset(-2.0, 2.0), // how much shadow will be shown
+      )],
+    ),
+    bodyText2:TextStyle(
+      fontFamily: 'SivarPro', 
+      color: Colors.black, 
+      letterSpacing: 1, 
+      fontSize: 16, 
+      shadows: [Shadow(
+        blurRadius: 20.0, // shadow blur
+        color: Colors.white, // shadow color
+        offset: Offset(-2.0, 2.0), // how much shadow will be shown
+      )],
+    )
   ),
 );
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
-  textSelectionTheme: const TextSelectionThemeData(
-    cursorColor: darkPrimaryColor
-  ),
+  textSelectionTheme:
+      const TextSelectionThemeData(cursorColor: darkPrimaryColor),
   primaryColor: darkPrimaryColor,
   hintColor: darkPrimaryColor,
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -134,13 +149,28 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
       borderSide: BorderSide(width: 5, color: darkPrimaryColor),
     ),
   ),
-  primaryTextTheme: const TextTheme(
-    displayLarge: TextStyle(
-        fontSize: 36.0, fontWeight: FontWeight.bold, color: Colors.black87),
-    titleLarge: TextStyle(
-        fontSize: 18.0, fontStyle: FontStyle.italic, color: Colors.black87),
-    bodyMedium:
-        TextStyle(fontSize: 14.0, fontFamily: 'Hind', color: Colors.black87),
+  textTheme: const TextTheme(
+    bodyText1: TextStyle(
+      fontFamily: 'SivarPro', 
+      color: Colors.white, 
+      letterSpacing: 1, 
+      shadows: [Shadow(
+        blurRadius: 20.0, // shadow blur
+        color: Colors.black, // shadow color
+        offset: Offset(-2.0, 2.0), // how much shadow will be shown
+      )],
+    ),
+    bodyText2:TextStyle(
+      fontFamily: 'SivarPro', 
+      color: Colors.white, 
+      letterSpacing: 1, 
+      fontSize: 16, 
+      shadows: [Shadow(
+        blurRadius: 20.0, // shadow blur
+        color: Colors.black, // shadow color
+        offset: Offset(-2.0, 2.0), // how much shadow will be shown
+      )],
+    )
   ),
 );
 

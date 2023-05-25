@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:look_back/settings/responsive.dart';
 import 'package:look_back/components/background.dart';
 
-import 'components/dashboard_body.dart';
-import 'components/dashboard_top.dart';
+import 'dashboard_body.dart';
+//import 'components/dashboard_top.dart';
 
- List<String?> session = List.empty();
+List<String?> session = List.empty();
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key, required this.data});
@@ -63,6 +63,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
               desktop: DesktopDashboardScreen()),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (() {
+          Navigator.pushNamed(context, '/addProduct');
+        }),
+        child: const Icon(Icons.add_outlined),
+      ),
     );
   }
 }
@@ -115,6 +121,37 @@ class DesktopDashboardScreen extends StatelessWidget {
             ],
           ),
         ),
+      ],
+    );
+  }
+}
+
+class DashboardTop extends StatelessWidget {
+  const DashboardTop({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        Text(
+          "Welcome to S O C I A L T E C",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 16),
+        // Row(
+        //   children: [
+        //     Expanded(
+        //       flex: 8,
+        //       child: LottieBuilder.asset(
+        //         "assets/animation/cute_2.json",
+        //         height: 350,
+        //       ),
+        //     ),
+        //   ],
+        // ),
+        // SizedBox(height: 16 * 2),
       ],
     );
   }

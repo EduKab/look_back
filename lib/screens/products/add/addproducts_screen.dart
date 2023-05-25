@@ -1,46 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:look_back/settings/responsive.dart';
 import 'package:look_back/components/background.dart';
-import 'signup_form.dart';
+import 'package:look_back/screens/products/add/addproduts_body.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+
+class AddProductsScreen extends StatefulWidget {
+  const AddProductsScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<AddProductsScreen> createState() => _AddProductsScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _AddProductsScreenState extends State<AddProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Background(
+    return const Background(
       child: SingleChildScrollView(
         child: Responsive(
-            mobile: const MobileSignupScreen(),
-            desktop: const DesktopSingupScreen()),
+            mobile: MobileAddProductsScreen(),
+            desktop: DesktopSingupScreen()),
       ),
     );
   }
 }
 
-class MobileSignupScreen extends StatelessWidget {
-  const MobileSignupScreen({
+class MobileAddProductsScreen extends StatelessWidget {
+  const MobileAddProductsScreen({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const SignUpScreenTopImage(),
+        AddProductsScreenTopImage(),
         Row(
-          children: const [
+          children: [
             Spacer(),
             Expanded(
               flex: 8,
-              child: SignUpForm(),
+              child: AddProductsForm(),
             ),
             Spacer(),
           ],
@@ -56,18 +57,18 @@ class DesktopSingupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       children: [
-        const Expanded(
-          child: SignUpScreenTopImage(),
+        Expanded(
+          child: AddProductsScreenTopImage(),
         ),
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               SizedBox(
                 width: 450,
-                child: SignUpForm(),
+                child: AddProductsForm(),
               ),
               SizedBox(height: 8.0),
               // SocalSignUp()

@@ -3,12 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:look_back/settings/model_theme.dart';
 import 'package:look_back/settings/responsive.dart';
 import 'package:look_back/components/background.dart';
-//import 'package:animated_theme_switcher/animated_theme_switcher.dart';
-
-import 'components/theme_top.dart';
-import 'components/theme_body.dart';
-
-int counter = 0;
+import 'theme_body.dart';
 
 class ThemeScreen extends StatefulWidget {
   const ThemeScreen({super.key});
@@ -18,11 +13,6 @@ class ThemeScreen extends StatefulWidget {
 }
 
 class _ThemeScreenState extends State<ThemeScreen> {
-  void incrementCounter() {
-    setState(() {
-      counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +20,14 @@ class _ThemeScreenState extends State<ThemeScreen> {
       builder: (context, ModelTheme themeNotifier, child) {
         return Scaffold(
         appBar: AppBar(
-          title: Text('Theme'),
+          title: const Text('Theme'),
         ),
-        body: Background(
+        body: const Background(
           child: SingleChildScrollView(
             child: Responsive(
               mobile: MobileThemeScreen(),
               desktop: DesktopThemeScreen()
             ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: incrementCounter,
-          tooltip: 'Increment',
-          child: const Icon(
-            Icons.add,
           ),
         ),
       );
@@ -63,7 +46,7 @@ class MobileThemeScreen extends StatefulWidget {
 class _MobileThemeScreenState extends State<MobileThemeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         ThemeTop(),

@@ -24,9 +24,11 @@ class _ForgotFormState extends State<ForgotForm> {
           const Text(
             "Forgot Password",
             style: TextStyle(
-                fontFamily: 'Decipher',
-                fontWeight: FontWeight.bold,
-                fontSize: 25),
+              letterSpacing: 4,
+              fontFamily: 'Decipher',
+              fontWeight: FontWeight.bold,
+              fontSize: 25
+              ),
           ),
           const SizedBox(height: defaultPadding / 2),
           Padding(

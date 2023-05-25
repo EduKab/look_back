@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class DefaultFirebaseOptions {
+  
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
@@ -13,13 +14,13 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDydIyZ67EH_BPVoGvuFOELSsz77a7-uj0',
-    appId: '1:910516599381:web:1e849d6f34aad5d13c72dc',
-    messagingSenderId: '910516599381',
-    projectId: 'udemy-ac28e',
-    authDomain: 'udemy-ac28e.firebaseapp.com',
-    storageBucket: 'udemy-ac28e.appspot.com',
-    measurementId: 'G-Z2CQWBK39Q',
+    apiKey: "AIzaSyC3x9NHavWAkK5oc8R7oW9xyaLGjU3cbEw",
+    authDomain: "look-back-90825.firebaseapp.com",
+    projectId: "look-back-90825",
+    storageBucket: "look-back-90825.appspot.com",
+    messagingSenderId: "277137886822",
+    appId: "1:277137886822:web:c4054c0502ea63d0bae7a7",
+    measurementId: "G-KW7HBEQ55S"
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -27,7 +28,7 @@ class DefaultFirebaseOptions {
     appId: '1:277137886822:android:24e20af37a71f867bae7a7',
     messagingSenderId: '277137886822',
     projectId: 'look-back-90825',
-    //storageBucket: 'udemy-ac28e.appspot.com',
+    //storageBucket: 'gs://look-back-90825.appspot.com',
   );
 
   // static const FirebaseOptions ios = FirebaseOptions(
