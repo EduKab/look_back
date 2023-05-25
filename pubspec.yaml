@@ -57,6 +57,9 @@ dependencies:
   provider: ^6.0.5
   sqflite: ^2.2.5
 
+  bottom_navy_bar: ^6.0.0
+  flutter_image_slideshow: ^0.1.5
+
 
 dev_dependencies:
   flutter_test:
@@ -85,7 +88,9 @@ flutter:
   - assets/.
   - assets/images/.
   - assets/fonts/.
+  - assets/images/icons/.
   - assets/images/users/.
+  - assets/images/content/.
   - assets/images/backgrounds/.
   #   - images/a_dot_ham.jpeg
   - assets/animation/.
@@ -112,6 +117,10 @@ flutter:
       fonts:
         - asset: assets/fonts/Decipher.ttf
         - asset: assets/fonts/DecipherSymbols.ttf
+    
+    - family: Soulgood
+      fonts:
+        - asset: assets/fonts/Soulgood.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
