@@ -7,44 +7,26 @@ import 'package:look_back/settings/theme_config.dart';
 import 'package:look_back/settings/model_theme.dart';
 import 'package:look_back/settings/routes.dart';
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  print('WeeeeEEE');
-  await Firebase.initializeApp();
-  print("Handling a background message: ${message.messageId}");
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  //////////////////////////////////////////
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   print('-> Inicia');
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-  print('User granted permission: ${settings.authorizationStatus}');
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  // print('-> BackgroundMessage');
+  //////////////////////////////////////////
+
+  final fcm = await FirebaseMessaging.instance.getToken();
+  print(fcm);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
     print('Message data: ${message.data}');
     if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
+      print('Notification Title: ${message.notification!.title}');
+      print('Notification Body: ${message.notification!.body}');
     }
   });
-  //////////////////////////////////////////
 
+  //////////////////////////////////////////
   runApp(const MyApp());
 }
 
@@ -53,7 +35,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     ThemeData? getCurrentTheme(ModelTheme themeNotifier) {
       int nTheme = themeNotifier.chooseTheme;
       List<ThemeData> lista = [
@@ -75,35 +56,6 @@ class MyApp extends StatelessWidget {
           title: 'L O O K - B A C K',
           theme: getCurrentTheme(themeNotifier),
           routes: getApplicationRoutes(),
-
-          // home: Center(
-          //   child: Column(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: <Widget>[
-          //       ElevatedButton(
-          //           onPressed: () async {
-          //             print('chiiiiiiiii');
-          //             //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-          //             FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-          //               print('Got a message whilst in the foreground!');
-          //               print('Message data: ${message.data}');
-          //               if (message.notification != null) {
-          //                 print('Message also contained a notification: ${message.notification}');
-          //               }
-          //             });
-          //           },
-          //           child: Text('Subscribe To Topic')),
-          //       ElevatedButton(
-          //           onPressed: () async {
-          //             await FirebaseMessaging.instance
-          //                 .unsubscribeFromTopic('myTopic');
-          //           },
-          //           child: Text('un Subscribe To Topic')),
-          //     ],
-          //   ),
-          // ),
-
-
         );
       }),
     );

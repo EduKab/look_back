@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     // Add the Google services Gradle plugin
     id 'com.google.gms.google-services'
+    id 'kotlin-android'
 }
 
 def localProperties = new Properties()
@@ -33,7 +34,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     namespace "com.example.look_back"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 33
     ndkVersion flutter.ndkVersion
 
     compileOptions {
