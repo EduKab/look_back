@@ -8,7 +8,7 @@ import 'package:look_back/settings/theme_config.dart';
 import 'package:look_back/settings/model_theme.dart';
 import 'package:look_back/settings/routes.dart';
 
-showNotification(title, body) async {
+showNotification(String title, String body) async {
   print('hehe');
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -42,7 +42,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   //await Firebase.initializeApp();
-  showNotification(message.notification!.title, message.notification!.body);
+  showNotification(message.notification!.title!, message.notification!.body!);
   print("Handling a background message: ${message.messageId}");
   print("Title: ${message.notification!.title}");
 }
@@ -63,7 +63,7 @@ void main() async {
     if (message.notification != null) {
       print('Notification Title: ${message.notification!.title}');
       print('Notification Body: ${message.notification!.body}');
-      showNotification(message.notification!.title, message.notification!.body);
+      showNotification(message.notification!.title!, message.notification!.body!);
     }
   });
 
