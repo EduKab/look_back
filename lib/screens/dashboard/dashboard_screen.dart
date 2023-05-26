@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:look_back/screens/profile/profile_screen.dart';
 import 'package:look_back/settings/responsive.dart';
 import 'package:look_back/components/background.dart';
-
 import 'dashboard_body.dart';
-//import 'components/dashboard_top.dart';
 
 List<String?> session = List.empty();
 
@@ -90,7 +88,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (() {
-          Navigator.pushNamed(context, '/addProduct');
+          Navigator.pushNamed(context, '/addProduct').then((value) {
+            setState(() {
+              
+            });
+          });
         }),
         child: const Icon(Icons.add_outlined),
       ),
@@ -106,19 +108,9 @@ class MobileDashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      // mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         const DashboardTop(),
-        Row(
-          children: [
-            // const Spacer(),
-            Expanded(
-              flex: 10,
-              child: DashboardBody(data: session),
-            ),
-            // const Spacer(),
-          ],
-        ),
+        DashboardBody(data: session),
       ],
     );
   }

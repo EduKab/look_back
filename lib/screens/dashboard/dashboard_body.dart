@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:look_back/models/product_model.dart';
 
@@ -44,38 +45,50 @@ class _DashboardBodyState extends State<DashboardBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        StreamBuilder(
+    return SingleChildScrollView(
+      child: StreamBuilder(
           stream: readProducts(),
           builder: (context, snapshot) {
-            if(snapshot.hasData){
+            if (snapshot.hasData) {
               return GridView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(7),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: .8,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10),
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Text(snapshot.data![index].name),
-                      Image.network(snapshot.data![index].url),
-                      Text('\$${snapshot.data![index].price}'),
-                    ],
-                  );
-                }
-              );
-            }else{
+                  physics: const ScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(7),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: .8,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        Text(snapshot.data![index].name),
+                        InkWell(
+                          child: Image.network(
+                            snapshot.data![index].url,
+                            fit: BoxFit.cover,
+                            height: 160,
+                            width: double.maxFinite,
+                          ),
+                          onTap: () {
+                            CoolAlert.show(
+                              context: context,
+                              type: CoolAlertType.info,
+                              title: snapshot.data![index].name,
+                              text: snapshot.data![index].desc,
+                              confirmBtnText: 'Accept',
+                            );
+                          },
+                        ),
+                        Text('\$${snapshot.data![index].price}'),
+                      ],
+                    );
+                  });
+            } else {
               return const CircularProgressIndicator();
             }
-          }
-        ),
-      ],
+          }),
     );
   }
 }

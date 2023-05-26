@@ -8,8 +8,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 
 File? _image;
-final FirebaseStorage storage = FirebaseStorage.instance;
-final docProduct = FirebaseFirestore.instance.collection('products').doc();
+FirebaseStorage storage = FirebaseStorage.instance;
+var docProduct = FirebaseFirestore.instance.collection('products').doc();
 
 class AddProductsScreenTopImage extends StatefulWidget {
   const AddProductsScreenTopImage({
@@ -236,7 +236,12 @@ class _AddProductsFormState extends State<AddProductsForm> {
                       confirmBtnText: 'Accept',
                       confirmBtnColor: Colors.green,
                     ).then((value) {
-                      Navigator.pop(context);
+                      setState(() {
+                        _image = null;
+                        storage = FirebaseStorage.instance;
+                        docProduct = FirebaseFirestore.instance.collection('products').doc();
+                        Navigator.pop(context);
+                      });
                     });
                   });
                 } else {
