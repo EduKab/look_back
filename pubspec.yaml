@@ -59,9 +59,14 @@ dependencies:
 
   bottom_navy_bar: ^6.0.0
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   flutter_image_slideshow: ^0.1.5
 
 =======
+>>>>>>> Stashed changes
+=======
+  flutter_image_slideshow: ^0.1.5
+  insta_image_viewer: ^1.0.2
 >>>>>>> Stashed changes
 
 dev_dependencies:
@@ -123,7 +128,20 @@ flutter:
     
     - family: Soulgood
       fonts:
+<<<<<<< Updated upstream
         - asset: assets/fonts/Soulgood.ttf
+=======
+        - asset: assets/fonts/SivarPro.ttf
+
+    - family: Soulgood
+      fonts:
+        - asset: assets/fonts/Soulgood.ttf
+    
+    - family: Rochaline
+      fonts:
+        - asset: assets/fonts/Rochaline.otf
+
+>>>>>>> Stashed changes
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

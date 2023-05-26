@@ -1,4 +1,5 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+<<<<<<< Updated upstream
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:look_back/settings/responsive.dart';
@@ -7,6 +8,19 @@ import 'package:look_back/components/background.dart';
 import '../profile/profile_screen.dart';
 import 'components/dashboard_body.dart';
 import 'components/dashboard_top.dart';
+=======
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
+import 'package:look_back/settings/responsive.dart';
+import 'package:look_back/components/background.dart';
+
+import '../../models/product_model.dart';
+import '../profile/profile_screen.dart';
+>>>>>>> Stashed changes
 
  List<String?> session = List.empty();
 
@@ -24,12 +38,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
   bool isEdit = false;
 
   PageController _pageController = PageController();
+<<<<<<< Updated upstream
 
+=======
+  
+>>>>>>> Stashed changes
   @override
   void initState() {
     super.initState();
     session = widget.data;
   }
+
+  Stream<List<Product>> readProducts() {
+    return FirebaseFirestore.instance
+    .collection('products')
+    .snapshots()
+    .map((event) =>
+        event.docs.map((e) => Product.fromJson(e.data())).toList());
+  } 
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +74,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
               title: Text('NEWS'),
+=======
+              title: Text(
+                'NEWS',
+                style: TextStyle(
+                  fontFamily: 'Decipher',
+                  fontSize: 18
+                ),
+              ),
+>>>>>>> Stashed changes
               automaticallyImplyLeading: false,
               backgroundColor: Colors.black,
             ),
@@ -91,6 +128,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           Text(
                             'Look Back is a clothing shop where you can find more variety that anyone shop in the world. We have clothing brand like Mezcal, Problems, New Era and much others, but the more importan clothing brand is our, you can find clothes of our brand Look Back.',
                             textAlign: TextAlign.justify,
+<<<<<<< Updated upstream
+=======
+                            style: TextStyle(
+                              fontFamily: 'Rochaline',
+                              fontSize: 20
+                            ),
+>>>>>>> Stashed changes
                           )
                         )
                       ],
@@ -164,7 +208,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           width: 30,
                         ),
                         SizedBox(width: 10),
+<<<<<<< Updated upstream
                         Text('@lookback.mx')
+=======
+                        Text(
+                          '@lookback.mx',
+                          style: TextStyle(
+                              fontFamily: 'Rochaline',
+                              fontSize: 20
+                            ),
+                        )
+>>>>>>> Stashed changes
                       ],
                     ),
                     SizedBox(height: 10),
@@ -176,7 +230,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           width: 30,
                         ),
                         SizedBox(width: 10),
+<<<<<<< Updated upstream
                         Text('Look Back')
+=======
+                        Text(
+                          'Look Back',
+                          style: TextStyle(
+                              fontFamily: 'Rochaline',
+                              fontSize: 20
+                            ),
+                        )
+>>>>>>> Stashed changes
                       ],
                     ),
                     SizedBox(height: 10),
@@ -188,11 +252,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           width: 30,
                         ),
                         SizedBox(width: 10),
+<<<<<<< Updated upstream
                         Text('+524611234567')
+=======
+                        Text(
+                          '+524611234567',
+                          style: TextStyle(
+                              fontFamily: 'Rochaline',
+                              fontSize: 20
+                            ),
+                        )
+>>>>>>> Stashed changes
                       ],
                     )
                   ],
                 ),
+<<<<<<< Updated upstream
 =======
               title: Text('LookBack'), 
               automaticallyImplyLeading: false
@@ -397,11 +472,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 radius: 40,
                 backgroundColor: Colors.transparent,
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
               ),
             ),
           ),
           Scaffold(
             appBar: AppBar(
+<<<<<<< Updated upstream
               backgroundColor: Colors.black,
               automaticallyImplyLeading: false,
               title: Text('SHOP'),
@@ -630,6 +708,288 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ],
             ),
+=======
+              actions: [
+                IconButton(
+                  onPressed: (){
+                    Navigator.pushNamed(context, '/addProduct');
+                  }, 
+                  icon: Icon(Icons.add)
+                )
+              ],
+              backgroundColor: Colors.black,
+              automaticallyImplyLeading: false,
+              title: Text(
+                'SHOP',
+                style: TextStyle(
+                  fontFamily: 'Decipher',
+                  fontSize: 18
+                ),
+              ),
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    StreamBuilder(
+                      stream: readProducts(),
+                      builder: (context, snapshot) {
+                        //print('products:' + read().toString());
+                        if(snapshot.hasData){
+                          return GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: .8,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 20),
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  Text(
+                                    snapshot.data![index].name,
+                                    style: TextStyle(
+                                      fontFamily: 'Soulgood',
+                                      fontSize: 20
+                                    ),
+                                  ),
+                                  InstaImageViewer(child: Image.network(snapshot.data![index].url, height: 175, width: 175)),
+                                  Text('\$${snapshot.data![index].price}'),
+                                ],
+                              );
+                            }
+                          );
+                        }else{
+                          return const CircularProgressIndicator();
+                        }
+                      }
+                    ),
+                  ]
+                ),
+              ),
+            )
+          ),
+          Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              title: Text(
+                'PROFILE',
+                style: TextStyle(
+                  fontFamily: 'Decipher',
+                  fontSize: 18
+                ),
+              ),
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.black,
+              actions: [
+                (isEdit)
+                ? Container()
+                : IconButton(
+                    onPressed: (){
+                      setState(() {
+                        isEdit =! isEdit;
+                        print(isEdit);
+                        /*if(widget.data[3] == 'Default'){
+                          isEdit =! isEdit;
+                          print(isEdit);
+                        }else{
+                          AlertDialog(
+                              actions: [
+                                TextButton(onPressed: (){}, child: Text('Aceptar'))
+                              ],
+                              content: Text('Solo se puede editar el perfil con las cuentas logueadas con correo electronico. :('),
+                          );
+                        }*/
+                      });
+                    }, 
+                    icon: Icon(Icons.edit)
+                )
+              ],
+            ),
+            body: Padding(
+              padding: EdgeInsets.all(50),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 200,
+                    width: 200,
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(widget.data[1]!),
+                      radius: 40,
+                      backgroundColor: Colors.transparent,
+                      child: (isEdit)
+                      ? Container(
+                          height: 50,
+                          width: 50,
+                          margin: EdgeInsets.only(top: 150, left: 110),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30), 
+                            color: Colors.red
+                          ),
+                          child: IconButton(
+                            onPressed: (){
+                              
+                            }, 
+                            icon: Icon(Icons.edit, color: Colors.white)
+                          ),
+                        )
+                      : Container()
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                  TextField(
+                    controller: TextEditingController(text: widget.data[0]!),
+                    focusNode: FocusNode(),
+                    enabled: (isEdit)
+                    ? true
+                    : false,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                    style:(isEdit)
+                    ? TextStyle(color: Colors.black)
+                    : TextStyle(color: Colors.grey)
+                  ),
+                  SizedBox(height: 10),
+                  TextField(
+                    controller: TextEditingController(text: widget.data[2]!),
+                    focusNode: FocusNode(),
+                    enabled: (isEdit)
+                    ? true
+                    : false,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                    style:(isEdit)
+                    ? TextStyle(color: Colors.black)
+                    : TextStyle(color: Colors.grey)
+                  ),
+                  SizedBox(height: 40),
+                  (isEdit)
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(Colors.green),
+                          ),
+                          onPressed: (){}, 
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'SAVE',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Icon(Icons.save, color: Colors.white)
+                              ],
+                            ),
+                          )
+                        ),
+                        TextButton(
+                          style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(Colors.red),
+                          ),
+                          onPressed: (){
+                            isEdit =! isEdit;
+                            setState(() {});
+                          }, 
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'CANCEL',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Icon(Icons.close_sharp, color: Colors.white)
+                              ],
+                            ),
+                          )
+                        ),
+                      ],
+                    )
+                  : Container()
+                ],
+              ),
+            ),
+          ),
+          Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'SETTINGS',
+                style: TextStyle(
+                  fontFamily: 'Decipher',
+                  fontSize: 18
+                ),
+              ),
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.black,
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.brightness_6_rounded),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/theme');
+                    },
+                    label: const Text("Themes"),
+                  ),
+                  
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.supervised_user_circle_sharp),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ProfileScreen(
+                              data: widget.data,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    label: const Text("Profile"),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.grey,
+                      //onPrimary: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.logout),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    label: const Text("Sign Out"),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.redAccent,
+                      //onPrimary: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+>>>>>>> Stashed changes
           ),
         ],
       ),
@@ -670,11 +1030,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
+<<<<<<< Updated upstream
     );*/
+=======
+    );
+>>>>>>> Stashed changes
   }
 }
 
-class MobileDashboardScreen extends StatelessWidget {
+/*class MobileDashboardScreen extends StatelessWidget {
   const MobileDashboardScreen({
     Key? key,
   }) : super(key: key);
@@ -698,9 +1062,9 @@ class MobileDashboardScreen extends StatelessWidget {
       ],
     );
   }
-}
+}*/
 
-class DesktopDashboardScreen extends StatelessWidget {
+/*class DesktopDashboardScreen extends StatelessWidget {
   const DesktopDashboardScreen({super.key});
 
   @override
@@ -721,5 +1085,14 @@ class DesktopDashboardScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+}*/
+
+class GetCache{
+  final dio = Dio();
+
+  void getHttp() async {
+    final response = await dio.get('https://dart.dev');
+    print(response);
   }
 }
