@@ -8,38 +8,43 @@ import 'package:look_back/settings/theme_config.dart';
 import 'package:look_back/settings/model_theme.dart';
 import 'package:look_back/settings/routes.dart';
 
-showNotification() async {
+showNotification(title, body) async {
   print('hehe');
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
-
   const InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
   );
-
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
   );
-  print('hehe x2');
   AndroidNotificationChannel channel = const AndroidNotificationChannel(
     'high channel',
     'Very important notification!!',
     description: 'the first notification',
     importance: Importance.max,
   );
-
   await flutterLocalNotificationsPlugin.show(
     1,
-    'my first notification',
-    'a very long message for the user of app',
+    title,
+    body,
     NotificationDetails(
       android: AndroidNotificationDetails(channel.id, channel.name,
           channelDescription: channel.description),
     ),
-  ).then((value) => print('acaday'));
+  ).then((value) => print('notificacion mostrada'));
+}
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  //await Firebase.initializeApp();
+  showNotification(message.notification!.title, message.notification!.body);
+  print("Handling a background message: ${message.messageId}");
+  print("Title: ${message.notification!.title}");
 }
 
 void main() async {
@@ -58,7 +63,7 @@ void main() async {
     if (message.notification != null) {
       print('Notification Title: ${message.notification!.title}');
       print('Notification Body: ${message.notification!.body}');
-      showNotification();
+      showNotification(message.notification!.title, message.notification!.body);
     }
   });
 
