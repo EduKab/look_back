@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:look_back/screens/profile/profile_screen.dart';
+import 'package:look_back/screens/dashboard/dashboard_body1.dart';
+import 'package:look_back/screens/dashboard/dashboard_body2.dart';
+import 'package:look_back/screens/dashboard/dashboard_body3.dart';
+import 'package:look_back/screens/dashboard/dashboard_body4.dart';
 import 'package:look_back/settings/responsive.dart';
-import 'package:look_back/components/background.dart';
-import 'dashboard_body.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
 List<String?> session = List.empty();
 
@@ -16,6 +18,11 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  
+  int _currentIndex = 0;
+  bool isEdit = false;
+  PageController _pageController = PageController();
+
   @override
   void initState() {
     super.initState();
@@ -24,116 +31,250 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(
-        child: ListView(
+    return Container(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: PageView(
+          controller: _pageController,
           children: [
-            UserAccountsDrawerHeader(
-              accountName: Text(widget.data[0]!),
-              accountEmail: Text(widget.data[2]!),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(widget.data[1]!),
-                radius: 40,
-                backgroundColor: Colors.transparent,
-              ),
+            Responsive(
+              mobile: MobileDashboardScreen1(),
+              desktop: DesktopDashboardScreen1()
             ),
-            ListTile(
-              title: const Text('Themes'),
-              subtitle: const Text('Select theme'),
-              leading: const Icon(Icons.brightness_6_rounded),
-              onTap: () {
-                Navigator.pushNamed(context, '/theme');
-              },
+            Responsive(
+              mobile: MobileDashboardScreen2(),
+              desktop: DesktopDashboardScreen2()
             ),
-            ListTile(
-              title: const Text('Profile'),
-              subtitle: const Text('View data profile'),
-              leading: const Icon(Icons.supervised_user_circle_sharp),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return ProfileScreen(
-                        data: widget.data,
-                      );
-                    },
-                  ),
-                );
-              },
+            Responsive(
+              mobile: MobileDashboardScreen3(),
+              desktop: DesktopDashboardScreen3()
             ),
-            ListTile(
-              title: const Text('Sign Out'),
-              subtitle: Text('${widget.data[3]} User'),
-              leading: const Icon(Icons.logout),
-              onTap: () {
-                // XDDDDDDDDDDDDD
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
+            Responsive(
+              mobile: MobileDashboardScreen4(),
+              desktop: DesktopDashboardScreen4()
+            ),
+          ]
+        ),
+        bottomNavigationBar: BottomNavyBar(
+          selectedIndex: _currentIndex,
+          showElevation: true,
+          itemCornerRadius: 24,
+          curve: Curves.easeIn,
+          onItemSelected: (index) => {
+            setState(() => _currentIndex = index),
+            _pageController.animateToPage(index,
+                    duration: Duration(milliseconds: 300), curve: Curves.ease)
+          },
+          items: <BottomNavyBarItem>[
+            BottomNavyBarItem(
+              title: Text('Home'),
+              icon: Icon(Icons.home),
+              inactiveColor: Colors.black,
+              activeColor: Color.fromARGB(255, 255, 53, 120)
+            ),
+            BottomNavyBarItem(
+              title: Text('Shop'),
+              icon: Icon(Icons.view_module),
+              inactiveColor: Colors.black,
+              activeColor: Color.fromARGB(255, 255, 53, 120)
+            ),
+            BottomNavyBarItem(
+              title: Text('Profile'),
+              icon: Icon(Icons.person),
+              inactiveColor: Colors.black,
+              activeColor: Color.fromARGB(255, 255, 53, 120)
+            ),
+            BottomNavyBarItem(
+              title: Text('Settings'),
+              icon: Icon(Icons.settings),
+              inactiveColor: Colors.black,
+              activeColor: Color.fromARGB(255, 255, 53, 120)
             ),
           ],
         ),
-      ),
-      appBar: AppBar(
-        title: const Text(
-          'Welcome to look back',
-        ),
-      ),
-      body: const Background(
-        child: SingleChildScrollView(
-          child: Responsive(
-              mobile: MobileDashboardScreen(),
-              desktop: DesktopDashboardScreen()),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (() {
-          Navigator.pushNamed(context, '/addProduct').then((value) {
-            setState(() {
-              
-            });
-          });
-        }),
-        child: const Icon(Icons.add_outlined),
       ),
     );
   }
 }
 
-class MobileDashboardScreen extends StatelessWidget {
-  const MobileDashboardScreen({
+class MobileDashboardScreen1 extends StatelessWidget {
+  const MobileDashboardScreen1({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        const DashboardTop(),
-        DashboardBody(data: session),
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Welcome to Look Back'),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.pink,
+      ),
+      body: DashboardBody1()
     );
   }
 }
 
-class DesktopDashboardScreen extends StatelessWidget {
-  const DesktopDashboardScreen({super.key});
+class MobileDashboardScreen2 extends StatefulWidget {
+  const MobileDashboardScreen2({super.key});
+
+  @override
+  State<MobileDashboardScreen2> createState() => _MobileDashboardScreen2State();
+}
+
+class _MobileDashboardScreen2State extends State<MobileDashboardScreen2> {
+        
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Shop'),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.pink,
+      ),
+      body: DashboardBody2(),
+      floatingActionButton: FloatingActionButton(
+          onPressed: (() {
+            Navigator.pushNamed(context, '/addProduct').then((value) {
+              setState(() {
+                
+              });
+            });
+          }),
+          child: const Icon(Icons.add_outlined),
+        ),
+    );
+  }
+}
+
+class MobileDashboardScreen3 extends StatefulWidget {
+  const MobileDashboardScreen3({super.key});
+
+  @override
+  State<MobileDashboardScreen3> createState() => _MobileDashboardScreen3State();
+}
+
+class _MobileDashboardScreen3State extends State<MobileDashboardScreen3> {
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              title: Text('Profile'),
+              backgroundColor: Colors.pink,
+              automaticallyImplyLeading: false,
+            ),
+            body: DashboardBody3(data: session)
+          );
+  }
+}
+
+class MobileDashboardScreen4 extends StatelessWidget {
+  const MobileDashboardScreen4({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Scaffold(
+            appBar: AppBar(
+              title: Text('Settings'),
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.pink,
+            ),
+            body: DashboardBody4(data: session)
+    );
+  }
+}
+
+class DesktopDashboardScreen1 extends StatelessWidget {
+  const DesktopDashboardScreen1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 450,
+                  child: DashboardBody1(),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DesktopDashboardScreen2 extends StatelessWidget {
+  const DesktopDashboardScreen2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        const Expanded(
-          child: DashboardTop(),
-        ),
         Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
                 width: 450,
-                child: DashboardBody(data: session),
+                child: DashboardBody2(),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class DesktopDashboardScreen3 extends StatelessWidget {
+  const DesktopDashboardScreen3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 450,
+                child: DashboardBody3(data: session),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class DesktopDashboardScreen4 extends StatelessWidget {
+  const DesktopDashboardScreen4({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 450,
+                child: DashboardBody4(data: session),
               ),
             ],
           ),
