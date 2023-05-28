@@ -157,13 +157,18 @@ class _LoginFormState extends State<LoginForm> {
                           .signInWithEmailAndPassword(email: em, password: ps)
                           .then((value) {
                         var user = FirebaseAuth.instance.currentUser;
+                        print('USER -> $user');
                         if (user!.emailVerified) {
                           print('-> VERIFIED');
+                          String pic = user.photoURL != null
+                          ? user.photoURL!
+                          : 'https://i.pinimg.com/474x/30/04/21/3004214c3132a490eefad066c6da759b.jpg';
                           var data = [
                             'Email verified profile',
-                            'https://i.pinimg.com/474x/30/04/21/3004214c3132a490eefad066c6da759b.jpg',
+                            pic,
                             em,
-                            'Default'
+                            'Email',
+                            ps
                           ];
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -185,7 +190,7 @@ class _LoginFormState extends State<LoginForm> {
                               cancelBtnText: 'No',
                               confirmBtnColor: Colors.green,
                               onConfirmBtnTap: () async {
-                                print('USER -> $user');
+                                //print('USER -> $user');
                                 user = FirebaseAuth.instance.currentUser;
                                 await user!
                                     .sendEmailVerification()

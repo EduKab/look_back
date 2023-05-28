@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:look_back/screens/profile/profile_screen.dart';
 import 'package:look_back/settings/responsive.dart';
@@ -58,7 +59,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       );
                     },
                   ),
-                );
+                ).then((value) async {
+                  final credential = await FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: widget.data[2]!, password: widget.data[4]!)
+                      .then((value) {
+                    var user = FirebaseAuth.instance.currentUser;
+                    if (widget.data[1] != user!.photoURL) {
+                      setState(() {
+                        widget.data[1] = user.photoURL;
+                      });
+                    }
+                  });
+                  print('CRED -> $credential');
+                });
               },
             ),
             ListTile(
@@ -89,9 +103,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: (() {
           Navigator.pushNamed(context, '/addProduct').then((value) {
-            setState(() {
-              
-            });
+            setState(() {});
           });
         }),
         child: const Icon(Icons.add_outlined),

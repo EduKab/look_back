@@ -11,8 +11,6 @@ import 'package:look_back/settings/routes.dart';
 Notifications notifications = Notifications();
 
 Future<void> backgroundMessageHandler(RemoteMessage message) async {
-  notifications.sendNotification(
-        'eeee', 'iuiuiuiui');
   print('Got a message whilst in the foreground!');
   print('backgroundMessageHandler');
   if (message.notification != null) {
