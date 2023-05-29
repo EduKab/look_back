@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../profile/profile_screen.dart';
@@ -23,8 +24,10 @@ class _DashboardBody3State extends State<DashboardBody3> {
                   SizedBox(
                     height: 200,
                     width: 200,
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(widget.data[1]!),
+                    child: CachedNetworkImage(
+                                    imageUrl: widget.data[1]!,
+                                    fit: BoxFit.cover,
+                      //backgroundImage: NetworkImage(widget.data[1]!),
                     ),
                   ),
                   const SizedBox(height: 50),

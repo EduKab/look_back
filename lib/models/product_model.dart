@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class Product {
   final String desc;
   String id;
@@ -23,4 +25,14 @@ class Product {
     price: json['price'], 
     url: json['url'], 
   );
+
+  factory Product.fromMap(Map<String,dynamic> map){
+    return Product(
+      id: map['fields']['id']['stringValue'], 
+      desc: map['fields']['desc']['stringValue'], 
+      name: map['fields']['name']['stringValue'], 
+      price: map['fields']['price']['doubleValue'].toDouble(), 
+      url: map['fields']['url']['stringValue'], 
+    );
+  }
 }

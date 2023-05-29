@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../models/product_model.dart';
 
@@ -12,21 +17,39 @@ class DashboardBody2 extends StatefulWidget {
 }
 
 class _DashboardBody2State extends State<DashboardBody2> {
-  Stream<List<Product>> readProducts() => FirebaseFirestore.instance
+  
+  Future<List<Product>> read() async {
+    Dio dio = Dio();
+    dio.interceptors.add(DioCacheManager(CacheConfig(baseUrl: "http://www.google.com'https://firestore.googleapis.com/")).interceptor);
+    final response = await dio.get('https://firestore.googleapis.com/v1/projects/look-back-90825/databases/(default)/documents/products/', options: buildCacheOptions(Duration(days: 7)),);
+    var listJSON = response.data['documents'] as List;
+    print(listJSON);
+    if( response.statusCode == 200 ){
+      return listJSON.map((product) => Product.fromMap(product)).toList(); 
+    };
+
+    return List.empty();
+  }
+
+  /*Stream<List<Product>> readProducts(){
+
+    return FirebaseFirestore.instance
       .collection('products')
       .snapshots()
       .map((event) =>
           event.docs.map((e) => Product.fromJson(e.data())).toList());
+  }*/
           
   @override
   Widget build(BuildContext context) {
+  
     return SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
             children: <Widget>[
-              StreamBuilder(
-                  stream: readProducts(),
+              FutureBuilder(
+                  future: read(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return GridView.builder(
@@ -44,12 +67,19 @@ class _DashboardBody2State extends State<DashboardBody2> {
                               children: [
                                 Text(snapshot.data![index].name),
                                 InkWell(
-                                  child: Image.network(
-                                    snapshot.data![index].url,
+                                  child: 
+                                  CachedNetworkImage(
+                                    imageUrl: snapshot.data![index].url,
                                     fit: BoxFit.cover,
                                     height: 160,
                                     width: double.maxFinite,
                                   ),
+                                  /*Image.network(
+                                    snapshot.data![index].url,
+                                    fit: BoxFit.cover,
+                                    height: 160,
+                                    width: double.maxFinite,
+                                  ),*/
                                   onTap: () {
                                     CoolAlert.show(
                                       context: context,
@@ -73,4 +103,5 @@ class _DashboardBody2State extends State<DashboardBody2> {
         ),
       );
   }
+
 }

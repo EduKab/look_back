@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +104,11 @@ class _ProfileDataState extends State<ProfileData> {
                     _image!,
                     fit: BoxFit.cover,
                   )
-                : Image.network(widget.data[1]!)
+                //: Image.network(widget.data[1]!)
+                : CachedNetworkImage(
+                                    imageUrl: widget.data[1]!,
+                                    fit: BoxFit.cover,
+                )
           ),
           Row(
             children: <Widget>[
