@@ -31,67 +31,65 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: PageView(
-          controller: _pageController,
-          children: [
-            Responsive(
-              mobile: MobileDashboardScreen1(),
-              desktop: DesktopDashboardScreen1()
-            ),
-            Responsive(
-              mobile: MobileDashboardScreen2(),
-              desktop: DesktopDashboardScreen2()
-            ),
-            Responsive(
-              mobile: MobileDashboardScreen3(),
-              desktop: DesktopDashboardScreen3()
-            ),
-            Responsive(
-              mobile: MobileDashboardScreen4(),
-              desktop: DesktopDashboardScreen4()
-            ),
-          ]
-        ),
-        bottomNavigationBar: BottomNavyBar(
-          selectedIndex: _currentIndex,
-          showElevation: true,
-          itemCornerRadius: 24,
-          curve: Curves.easeIn,
-          onItemSelected: (index) => {
-            setState(() => _currentIndex = index),
-            _pageController.animateToPage(index,
-                    duration: Duration(milliseconds: 300), curve: Curves.ease)
-          },
-          items: <BottomNavyBarItem>[
-            BottomNavyBarItem(
-              title: Text('Home'),
-              icon: Icon(Icons.home),
-              inactiveColor: Colors.black,
-              activeColor: Color.fromARGB(255, 255, 53, 120)
-            ),
-            BottomNavyBarItem(
-              title: Text('Shop'),
-              icon: Icon(Icons.view_module),
-              inactiveColor: Colors.black,
-              activeColor: Color.fromARGB(255, 255, 53, 120)
-            ),
-            BottomNavyBarItem(
-              title: Text('Profile'),
-              icon: Icon(Icons.person),
-              inactiveColor: Colors.black,
-              activeColor: Color.fromARGB(255, 255, 53, 120)
-            ),
-            BottomNavyBarItem(
-              title: Text('Settings'),
-              icon: Icon(Icons.settings),
-              inactiveColor: Colors.black,
-              activeColor: Color.fromARGB(255, 255, 53, 120)
-            ),
-          ],
-        ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: PageView(
+        controller: _pageController,
+        children: const [
+          Responsive(
+            mobile: MobileDashboardScreen1(),
+            desktop: DesktopDashboardScreen1()
+          ),
+          Responsive(
+            mobile: MobileDashboardScreen2(),
+            desktop: DesktopDashboardScreen2()
+          ),
+          Responsive(
+            mobile: MobileDashboardScreen3(),
+            desktop: DesktopDashboardScreen3()
+          ),
+          Responsive(
+            mobile: MobileDashboardScreen4(),
+            desktop: DesktopDashboardScreen4()
+          ),
+        ]
+      ),
+      bottomNavigationBar: BottomNavyBar(
+        selectedIndex: _currentIndex,
+        showElevation: true,
+        itemCornerRadius: 24,
+        curve: Curves.easeIn,
+        onItemSelected: (index) => {
+          setState(() => _currentIndex = index),
+          _pageController.animateToPage(index,
+                  duration: const Duration(milliseconds: 300), curve: Curves.ease)
+        },
+        items: <BottomNavyBarItem>[
+          BottomNavyBarItem(
+            title: const Text('Home'),
+            icon: const Icon(Icons.home),
+            inactiveColor: Colors.black,
+            activeColor: const Color.fromARGB(255, 255, 53, 120)
+          ),
+          BottomNavyBarItem(
+            title: const Text('Shop'),
+            icon: const Icon(Icons.view_module),
+            inactiveColor: Colors.black,
+            activeColor: const Color.fromARGB(255, 255, 53, 120)
+          ),
+          BottomNavyBarItem(
+            title: const Text('Profile'),
+            icon: const Icon(Icons.person),
+            inactiveColor: Colors.black,
+            activeColor: const Color.fromARGB(255, 255, 53, 120)
+          ),
+          BottomNavyBarItem(
+            title: const Text('Settings'),
+            icon: const Icon(Icons.settings),
+            inactiveColor: Colors.black,
+            activeColor: const Color.fromARGB(255, 255, 53, 120)
+          ),
+        ],
       ),
     );
   }
@@ -106,11 +104,11 @@ class MobileDashboardScreen1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome to Look Back'),
+        title: const Text('Welcome to Look Back'),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.pink,
       ),
-      body: DashboardBody1()
+      body: const DashboardBody1()
     );
   }
 }
@@ -128,17 +126,15 @@ class _MobileDashboardScreen2State extends State<MobileDashboardScreen2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Shop'),
+        title: const Text('Shop'),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.pink,
       ),
-      body: DashboardBody2(),
+      body: const DashboardBody2(),
       floatingActionButton: FloatingActionButton(
           onPressed: (() {
             Navigator.pushNamed(context, '/addProduct').then((value) {
-              setState(() {
-                
-              });
+              setState(() { });
             });
           }),
           child: const Icon(Icons.add_outlined),
@@ -161,7 +157,7 @@ class _MobileDashboardScreen3State extends State<MobileDashboardScreen3> {
     return Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
-              title: Text('Profile'),
+              title: const Text('Profile'),
               backgroundColor: Colors.pink,
               automaticallyImplyLeading: false,
             ),
@@ -177,7 +173,7 @@ class MobileDashboardScreen4 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
             appBar: AppBar(
-              title: Text('Settings'),
+              title: const Text('Settings'),
               automaticallyImplyLeading: false,
               backgroundColor: Colors.pink,
             ),

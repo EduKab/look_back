@@ -1,13 +1,9 @@
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
-import '../../models/product_model.dart';
+import 'package:look_back/models/product_model.dart';
 
 class DashboardBody2 extends StatefulWidget {
   const DashboardBody2({super.key});
@@ -26,7 +22,7 @@ class _DashboardBody2State extends State<DashboardBody2> {
     print(listJSON);
     if( response.statusCode == 200 ){
       return listJSON.map((product) => Product.fromMap(product)).toList(); 
-    };
+    }
 
     return List.empty();
   }
@@ -71,7 +67,7 @@ class _DashboardBody2State extends State<DashboardBody2> {
                                   CachedNetworkImage(
                                     imageUrl: snapshot.data![index].url,
                                     fit: BoxFit.cover,
-                                    height: 160,
+                                    height: 140,
                                     width: double.maxFinite,
                                   ),
                                   /*Image.network(
