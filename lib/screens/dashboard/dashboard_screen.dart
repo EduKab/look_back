@@ -67,26 +67,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
             title: const Text('Home'),
-            icon: const Icon(Icons.home),
-            inactiveColor: Colors.black,
+            icon: const Icon(Icons.home,
+              shadows: <Shadow>[Shadow(color: Colors.black, blurRadius: 15.0)],),
+            inactiveColor: Colors.white,
             activeColor: const Color.fromARGB(255, 255, 53, 120)
           ),
           BottomNavyBarItem(
             title: const Text('Shop'),
-            icon: const Icon(Icons.view_module),
-            inactiveColor: Colors.black,
+            icon: const Icon(Icons.view_module,
+              shadows: <Shadow>[Shadow(color: Colors.black, blurRadius: 15.0)],),
+            inactiveColor: Colors.white,
             activeColor: const Color.fromARGB(255, 255, 53, 120)
           ),
           BottomNavyBarItem(
             title: const Text('Profile'),
-            icon: const Icon(Icons.person),
-            inactiveColor: Colors.black,
+            icon: const Icon(Icons.person,
+              shadows: <Shadow>[Shadow(color: Colors.black, blurRadius: 15.0)],),
+            inactiveColor: Colors.white,
             activeColor: const Color.fromARGB(255, 255, 53, 120)
           ),
           BottomNavyBarItem(
             title: const Text('Settings'),
-            icon: const Icon(Icons.settings),
-            inactiveColor: Colors.black,
+            icon: const Icon(Icons.settings,
+              shadows: <Shadow>[Shadow(color: Colors.black, blurRadius: 15.0)],),
+            inactiveColor: Colors.white,
             activeColor: const Color.fromARGB(255, 255, 53, 120)
           ),
         ],

@@ -163,6 +163,7 @@ class _ProfileDataState extends State<ProfileData> {
                 if (user != null) {
                   setState(() {
                     widget.data[1] = user!.photoURL;
+                    _image = null;
                   });
                 }
                 await FirebaseAuth.instance.signOut();
@@ -236,7 +237,8 @@ class _ProfileDataState extends State<ProfileData> {
                       child: const Row(
                         children: [
                           Icon(Icons.change_circle_outlined),
-                          Text('Change',
+                          Text(
+                            'Change',
                             style: TextStyle(
                               //color: kPrimaryColor,
                               decoration: TextDecoration.underline,
@@ -252,7 +254,7 @@ class _ProfileDataState extends State<ProfileData> {
                 )
               : const Text(
                   'Couldn\'t change picture',
-                  style: TextStyle(fontSize: 10),
+                  style: TextStyle(fontSize: 13),
                 ),
           // Row(
           //   children: <Widget>[
@@ -279,40 +281,40 @@ class _ProfileDataState extends State<ProfileData> {
             children: [
               Text(
                 'Profile ${widget.data[3]}',
-                style: const TextStyle(
-                  fontFamily: 'SivarPro',
-                  fontSize: 30
-                ),
+                style: const TextStyle(fontFamily: 'SivarPro', fontSize: 35),
               ),
               const SizedBox(width: 20),
-              widget.data[3] == 'Google' 
-                ? const CircleAvatar(
-                  backgroundImage: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2008px-Google_%22G%22_Logo.svg.png'),
-                )
-                : widget.data[3] == 'GitHub' 
+              widget.data[3] == 'Google'
                   ? const CircleAvatar(
-                    backgroundImage: NetworkImage('https://qph.cf2.quoracdn.net/main-qimg-729a22aba98d1235fdce4883accaf81e'),
-                  )
-                  : const CircleAvatar( // Email
-                    backgroundImage: NetworkImage('https://cdn4.iconfinder.com/data/icons/social-media-logos-6/512/112-gmail_email_mail-512.png'),
-                  )
+                      backgroundImage: NetworkImage(
+                          'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2008px-Google_%22G%22_Logo.svg.png'),
+                      backgroundColor: Colors.transparent,
+                    )
+                  : widget.data[3] == 'GitHub'
+                      ? const CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              'https://qph.cf2.quoracdn.net/main-qimg-729a22aba98d1235fdce4883accaf81e'),
+                          backgroundColor: Colors.transparent,
+                        )
+                      : const CircleAvatar(
+                          // Email
+                          backgroundImage: NetworkImage(
+                              'https://cdn4.iconfinder.com/data/icons/social-media-logos-6/512/112-gmail_email_mail-512.png'),
+                          backgroundColor: Colors.transparent,
+                        )
             ],
           ),
           const SizedBox(height: 20),
           // Nombre
-          Text(widget.data[0]!,
-            style: const TextStyle(
-              fontFamily: 'KAFEINE',
-              fontSize: 18
-            ),
+          Text(
+            widget.data[0]!,
+            style: const TextStyle(fontFamily: 'KAFEINE', fontSize: 18),
           ),
           const SizedBox(height: 20),
           // Email
-          Text(widget.data[2]!,
-            style: const TextStyle(
-              fontFamily: 'Rochaline',
-              fontSize: 20
-            ),
+          Text(
+            widget.data[2]!,
+            style: const TextStyle(fontFamily: 'Rochaline', fontSize: 20),
           ),
           const SizedBox(height: 20),
           ElevatedButton.icon(

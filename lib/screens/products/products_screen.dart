@@ -16,14 +16,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
   
   Future<List<Product>> read() async {
     Dio dio = Dio();
-    dio.interceptors.add(DioCacheManager(CacheConfig(baseUrl: "http://www.google.com'https://firestore.googleapis.com/")).interceptor);
-    final response = await dio.get('https://firestore.googleapis.com/v1/projects/look-back-90825/databases/(default)/documents/products/', options: buildCacheOptions(Duration(days: 7)),);
+    dio.interceptors.add(DioCacheManager(CacheConfig(
+            baseUrl: "http://www.google.com'https://firestore.googleapis.com/"))
+        .interceptor);
+    final response = await dio.get(
+      'https://firestore.googleapis.com/v1/projects/look-back-90825/databases/(default)/documents/products/',
+      options: buildCacheOptions(const Duration(days: 7)),
+    );
     var listJSON = response.data['documents'] as List;
     print(listJSON);
-    if( response.statusCode == 200 ){
-      return listJSON.map((product) => Product.fromMap(product)).toList(); 
+    if (response.statusCode == 200) {
+      return listJSON.map((product) => Product.fromMap(product)).toList();
     }
-
     return List.empty();
   }
 
@@ -35,69 +39,70 @@ class _ProductsScreenState extends State<ProductsScreen> {
       .map((event) =>
           event.docs.map((e) => Product.fromJson(e.data())).toList());
   }*/
-          
+
   @override
   Widget build(BuildContext context) {
-  
     return SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: <Widget>[
-              FutureBuilder(
-                  future: read(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return GridView.builder(
-                          physics: const ScrollPhysics(),
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.all(7),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: .8,
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 10),
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                Text(snapshot.data![index].name),
-                                InkWell(
-                                  child: 
-                                  CachedNetworkImage(
-                                    imageUrl: snapshot.data![index].url,
-                                    fit: BoxFit.cover,
-                                    height: 140,
-                                    width: double.maxFinite,
-                                  ),
-                                  /*Image.network(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: <Widget>[
+            FutureBuilder(
+                future: read(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return GridView.builder(
+                        physics: const ScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.all(7),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: .8,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              Text(
+                                snapshot.data![index].name, 
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              InkWell(
+                                child: CachedNetworkImage(
+                                  imageUrl: snapshot.data![index].url,
+                                  fit: BoxFit.cover,
+                                  height: 140,
+                                  width: double.maxFinite,
+                                ),
+                                /*Image.network(
                                     snapshot.data![index].url,
                                     fit: BoxFit.cover,
                                     height: 160,
                                     width: double.maxFinite,
                                   ),*/
-                                  onTap: () {
-                                    CoolAlert.show(
-                                      context: context,
-                                      type: CoolAlertType.info,
-                                      title: snapshot.data![index].name,
-                                      text: snapshot.data![index].desc,
-                                      confirmBtnText: 'Accept',
-                                    );
-                                  },
-                                ),
-                                Text('\$${snapshot.data![index].price}'),
-                              ],
-                            );
-                          });
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  })
-            ],
-          ),
+                                onTap: () {
+                                  CoolAlert.show(
+                                    context: context,
+                                    type: CoolAlertType.info,
+                                    title: snapshot.data![index].name,
+                                    text: snapshot.data![index].desc,
+                                    confirmBtnText: 'Accept',
+                                  );
+                                },
+                              ),
+                              Text('\$${snapshot.data![index].price}'),
+                            ],
+                          );
+                        });
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                })
+          ],
         ),
-      );
+      ),
+    );
   }
-
 }

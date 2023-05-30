@@ -103,9 +103,9 @@ class _ForgotFormState extends State<ForgotForm> {
               label: const Text(
                 "Reset Password",
               ),
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 56),
-              ),
+              // style: ElevatedButton.styleFrom(
+              //   minimumSize: const Size(double.maxFinite, 56),
+              // ),
             ),
           ),
           const SizedBox(height: defaultPadding),

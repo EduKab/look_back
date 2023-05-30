@@ -13,6 +13,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return OnBoardingSlider(
       totalPage: 3,
+      finishButtonStyle: const FinishButtonStyle(backgroundColor: Color.fromARGB(255, 255, 53, 120)),
       headerBackgroundColor: Colors.black,
       pageBackgroundColor: Colors.black,
       background: [Container(), Container(), Container()],
