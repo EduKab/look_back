@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:look_back/screens/dashboard/dashboard_body1.dart';
-import 'package:look_back/screens/dashboard/dashboard_body2.dart';
-import 'package:look_back/screens/dashboard/dashboard_body3.dart';
-import 'package:look_back/screens/dashboard/dashboard_body4.dart';
+import 'package:look_back/screens/dashboard/home_screen.dart';
+import 'package:look_back/screens/products/products_screen.dart';
+import 'package:look_back/screens/profile/profile_screen.dart';
+import 'package:look_back/screens/theme/theme_screen.dart';
 import 'package:look_back/settings/responsive.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
@@ -108,7 +108,7 @@ class MobileDashboardScreen1 extends StatelessWidget {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.pink,
       ),
-      body: const DashboardBody1()
+      body: const HomeScreen()
     );
   }
 }
@@ -130,7 +130,7 @@ class _MobileDashboardScreen2State extends State<MobileDashboardScreen2> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.pink,
       ),
-      body: const DashboardBody2(),
+      body: const ProductsScreen(),
       floatingActionButton: FloatingActionButton(
           onPressed: (() {
             Navigator.pushNamed(context, '/addProduct').then((value) {
@@ -161,7 +161,7 @@ class _MobileDashboardScreen3State extends State<MobileDashboardScreen3> {
               backgroundColor: Colors.pink,
               automaticallyImplyLeading: false,
             ),
-            body: DashboardBody3(data: session)
+            body: ProfileScreen(data: session)
           );
   }
 }
@@ -177,7 +177,7 @@ class MobileDashboardScreen4 extends StatelessWidget {
               automaticallyImplyLeading: false,
               backgroundColor: Colors.pink,
             ),
-            body: DashboardBody4(data: session)
+            body: const ThemeScreen()
     );
   }
 }
@@ -197,7 +197,7 @@ class DesktopDashboardScreen1 extends StatelessWidget {
               children: [
                 SizedBox(
                   width: 450,
-                  child: DashboardBody1(),
+                  child: HomeScreen(),
                 ),
               ],
             ),
@@ -222,7 +222,7 @@ class DesktopDashboardScreen2 extends StatelessWidget {
             children: [
               SizedBox(
                 width: 450,
-                child: DashboardBody2(),
+                child: ProductsScreen(),
               ),
             ],
           ),
@@ -246,7 +246,7 @@ class DesktopDashboardScreen3 extends StatelessWidget {
             children: [
               SizedBox(
                 width: 450,
-                child: DashboardBody3(data: session),
+                child: ProfileScreen(data: session),
               ),
             ],
           ),
@@ -261,7 +261,7 @@ class DesktopDashboardScreen4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Expanded(
@@ -270,7 +270,7 @@ class DesktopDashboardScreen4 extends StatelessWidget {
             children: [
               SizedBox(
                 width: 450,
-                child: DashboardBody4(data: session),
+                child: ThemeScreen(),
               ),
             ],
           ),

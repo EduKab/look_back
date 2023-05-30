@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:look_back/screens/products/addproduts_body.dart';
 import 'package:look_back/settings/responsive.dart';
 import 'package:look_back/components/background.dart';
-import 'package:look_back/screens/products/add/addproduts_body.dart';
-
 
 class AddProductsScreen extends StatefulWidget {
   const AddProductsScreen({Key? key}) : super(key: key);

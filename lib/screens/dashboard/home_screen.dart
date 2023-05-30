@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
-class DashboardBody1 extends StatelessWidget {
-  const DashboardBody1({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -163,9 +163,9 @@ class DashboardBody1 extends StatelessWidget {
                 const Text(
                   '+524611234567',
                   style: TextStyle(
-                      fontFamily: 'Rochaline',
-                      fontSize: 20
-                    ),
+                    fontFamily: 'Rochaline',
+                    fontSize: 20
+                  ),
                 )
               ],
             ),

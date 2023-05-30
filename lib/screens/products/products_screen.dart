@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:look_back/models/product_model.dart';
 
-class DashboardBody2 extends StatefulWidget {
-  const DashboardBody2({super.key});
+class ProductsScreen extends StatefulWidget {
+  const ProductsScreen({super.key});
 
   @override
-  State<DashboardBody2> createState() => _DashboardBody2State();
+  State<ProductsScreen> createState() => _ProductsScreenState();
 }
 
-class _DashboardBody2State extends State<DashboardBody2> {
+class _ProductsScreenState extends State<ProductsScreen> {
   
   Future<List<Product>> read() async {
     Dio dio = Dio();

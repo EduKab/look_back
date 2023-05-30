@@ -18,19 +18,14 @@ class _ThemeScreenState extends State<ThemeScreen> {
   Widget build(BuildContext context) {
     return Consumer<ModelTheme>(
       builder: (context, ModelTheme themeNotifier, child) {
-        return Scaffold(
-        appBar: AppBar(
-          title: const Text('Theme'),
-        ),
-        body: const Background(
+        return const Background(
           child: SingleChildScrollView(
             child: Responsive(
               mobile: MobileThemeScreen(),
               desktop: DesktopThemeScreen()
             ),
           ),
-        ),
-      );
+        );
       }
     );
   }
