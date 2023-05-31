@@ -1,3 +1,4 @@
+// import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:look_back/screens/dashboard/home_screen.dart';
 import 'package:look_back/screens/products/products_screen.dart';
@@ -18,7 +19,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  
   int _currentIndex = 0;
   bool isEdit = false;
   PageController _pageController = PageController();
@@ -33,27 +33,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: PageView(
-        controller: _pageController,
-        children: const [
-          Responsive(
+      body: PageView(controller: _pageController, children: const [
+        Responsive(
             mobile: MobileDashboardScreen1(),
-            desktop: DesktopDashboardScreen1()
-          ),
-          Responsive(
+            desktop: DesktopDashboardScreen1()),
+        Responsive(
             mobile: MobileDashboardScreen2(),
-            desktop: DesktopDashboardScreen2()
-          ),
-          Responsive(
+            desktop: DesktopDashboardScreen2()),
+        Responsive(
             mobile: MobileDashboardScreen3(),
-            desktop: DesktopDashboardScreen3()
-          ),
-          Responsive(
+            desktop: DesktopDashboardScreen3()),
+        Responsive(
             mobile: MobileDashboardScreen4(),
-            desktop: DesktopDashboardScreen4()
-          ),
-        ]
-      ),
+            desktop: DesktopDashboardScreen4()),
+      ]),
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: _currentIndex,
         showElevation: true,
@@ -62,37 +55,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
         onItemSelected: (index) => {
           setState(() => _currentIndex = index),
           _pageController.animateToPage(index,
-                  duration: const Duration(milliseconds: 300), curve: Curves.ease)
+              duration: const Duration(milliseconds: 300), curve: Curves.ease)
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-            title: const Text('Home'),
-            icon: const Icon(Icons.home,
-              shadows: <Shadow>[Shadow(color: Colors.black, blurRadius: 15.0)],),
-            inactiveColor: Colors.white,
-            activeColor: const Color.fromARGB(255, 255, 53, 120)
-          ),
+              title: const Text('Home'),
+              icon: const Icon(
+                Icons.home,
+                shadows: <Shadow>[
+                  Shadow(color: Colors.black, blurRadius: 15.0)
+                ],
+              ),
+              inactiveColor: Colors.white,
+              activeColor: const Color.fromARGB(255, 255, 53, 120)),
           BottomNavyBarItem(
-            title: const Text('Shop'),
-            icon: const Icon(Icons.view_module,
-              shadows: <Shadow>[Shadow(color: Colors.black, blurRadius: 15.0)],),
-            inactiveColor: Colors.white,
-            activeColor: const Color.fromARGB(255, 255, 53, 120)
-          ),
+              title: const Text('Shop'),
+              icon: const Icon(
+                Icons.view_module,
+                shadows: <Shadow>[
+                  Shadow(color: Colors.black, blurRadius: 15.0)
+                ],
+              ),
+              inactiveColor: Colors.white,
+              activeColor: const Color.fromARGB(255, 255, 53, 120)),
           BottomNavyBarItem(
-            title: const Text('Profile'),
-            icon: const Icon(Icons.person,
-              shadows: <Shadow>[Shadow(color: Colors.black, blurRadius: 15.0)],),
-            inactiveColor: Colors.white,
-            activeColor: const Color.fromARGB(255, 255, 53, 120)
-          ),
+              title: const Text('Profile'),
+              icon: const Icon(
+                Icons.person,
+                shadows: <Shadow>[
+                  Shadow(color: Colors.black, blurRadius: 15.0)
+                ],
+              ),
+              inactiveColor: Colors.white,
+              activeColor: const Color.fromARGB(255, 255, 53, 120)),
           BottomNavyBarItem(
-            title: const Text('Settings'),
-            icon: const Icon(Icons.settings,
-              shadows: <Shadow>[Shadow(color: Colors.black, blurRadius: 15.0)],),
-            inactiveColor: Colors.white,
-            activeColor: const Color.fromARGB(255, 255, 53, 120)
-          ),
+              title: const Text('Settings'),
+              icon: const Icon(
+                Icons.settings,
+                shadows: <Shadow>[
+                  Shadow(color: Colors.black, blurRadius: 15.0)
+                ],
+              ),
+              inactiveColor: Colors.white,
+              activeColor: const Color.fromARGB(255, 255, 53, 120)),
         ],
       ),
     );
@@ -107,13 +112,12 @@ class MobileDashboardScreen1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Welcome to Look Back'),
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.pink,
-      ),
-      body: const HomeScreen()
-    );
+        appBar: AppBar(
+          title: const Text('Welcome to Look Back'),
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.pink,
+        ),
+        body: const HomeScreen());
   }
 }
 
@@ -125,7 +129,6 @@ class MobileDashboardScreen2 extends StatefulWidget {
 }
 
 class _MobileDashboardScreen2State extends State<MobileDashboardScreen2> {
-        
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,13 +139,13 @@ class _MobileDashboardScreen2State extends State<MobileDashboardScreen2> {
       ),
       body: const ProductsScreen(),
       floatingActionButton: FloatingActionButton(
-          onPressed: (() {
-            Navigator.pushNamed(context, '/addProduct').then((value) {
-              setState(() { });
-            });
-          }),
-          child: const Icon(Icons.add_outlined),
-        ),
+        onPressed: (() async {
+          Navigator.pushNamed(context, '/addProduct').then((value) {
+            setState(() {});
+          });
+        }),
+        child: const Icon(Icons.add_outlined),
+      ),
     );
   }
 }
@@ -157,16 +160,14 @@ class MobileDashboardScreen3 extends StatefulWidget {
 class _MobileDashboardScreen3State extends State<MobileDashboardScreen3> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: AppBar(
-              title: const Text('Profile'),
-              backgroundColor: Colors.pink,
-              automaticallyImplyLeading: false,
-            ),
-            body: ProfileScreen(data: session)
-          );
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: const Text('Profile'),
+          backgroundColor: Colors.pink,
+          automaticallyImplyLeading: false,
+        ),
+        body: ProfileScreen(data: session));
   }
 }
 
@@ -176,13 +177,12 @@ class MobileDashboardScreen4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
-              title: const Text('Settings'),
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.pink,
-            ),
-            body: const ThemeScreen()
-    );
+        appBar: AppBar(
+          title: const Text('Settings'),
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.pink,
+        ),
+        body: const ThemeScreen());
   }
 }
 
