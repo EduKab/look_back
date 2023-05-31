@@ -1,4 +1,3 @@
-// import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:look_back/screens/dashboard/home_screen.dart';
 import 'package:look_back/screens/products/products_screen.dart';
@@ -131,22 +130,7 @@ class MobileDashboardScreen2 extends StatefulWidget {
 class _MobileDashboardScreen2State extends State<MobileDashboardScreen2> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shop'),
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.pink,
-      ),
-      body: const ProductsScreen(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (() async {
-          Navigator.pushNamed(context, '/addProduct').then((value) {
-            setState(() {});
-          });
-        }),
-        child: const Icon(Icons.add_outlined),
-      ),
-    );
+    return const ProductsScreen();
   }
 }
 
